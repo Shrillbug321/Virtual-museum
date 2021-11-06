@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Obraz</title>
+</head>
+<body>
+    <table th:object="${painting}">
+        <tr> Nazwa <td> </td> <td th:text="*{name}"> </td> </tr>
+        <tr> Autor <td> </td> <td th:text="*{author}"> </td> </tr>
+        <tr> Data dodania <td> </td> <td th:text="*{addDate}"> </td> </tr>
+        <tr> Data namalowania<td> </td> <td th:text="*{paintedDate}"> </td> </tr>
+        <tr> Wartość<td> </td> <td th:text="*{value}"> </td> </tr>
+        <tr> Wystawiony<td> </td> <td th:text="*{isExhibited}"> </td> </tr>
+        <tr> Technika<td> </td> <td th:text="*{technique.name}"> </td> </tr>
+        <tr> <td> </td> <td> <a th:href="@{paintings.html}"> Wróć </a> </td> </tr>
+    </table>
+</body>
+</html>
