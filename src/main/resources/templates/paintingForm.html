@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Formularz obrazu</title>
+	<meta charset="UTF-8">
+	<title>Formularz obrazu</title>
 </head>
 <body>
-  <form th:method="POST" th:object="${painting}"> <br>
-      Nazwa <input type="text" th:field="*{name}"/> <br>
-      Autor <input type="text" th:field="*{author}"/>
-      <span th:if="${#fields.hasErrors('author')}" th:each="err: ${#fields.errors('author')}" th:text="${err}"></span>  <br>
-      Dodano <input type="text" th:field="*{addDate}"/>
-        <span th:if="${#fields.hasErrors('addDate')}" th:each="err: ${#fields.errors('addDate')}" th:text="${err}"></span>  <br>
-      Namalowano <input type="text" th:field="*{paintedDate}"/>
-        <span th:if="${#fields.hasErrors('paintedDate')}" th:each="err: ${#fields.errors('paintedDate')}" th:text="${err}"></span>  <br>
-      Wartość <input type="text" th:field="*{value}"/> <br>
-      Wystawiono <input type="checkbox" th:field="*{exhibited}"/> <br>
-      Ramka <select name="technique">
-            <option th:each="technique: ${techniques}" th:text="${technique.name}" th:value="${technique.id}">  </option>
-      </select><br>
-      <input type="submit"> Wyślij
-  </form>
+	<form th:method="POST" th:object="${painting}"> <br>
+		<label> Nazwa
+			<input type="text" th:field="*{name}"/>
+		</label> <br>
+		<label> Autor
+			<input type="text" th:field="*{author}"/>
+		</label>
+		<span th:if="${#fields.hasErrors('author')}" th:each="err: ${#fields.errors('author')}" th:text="${err}"></span>  <br>
+		Dodano <input type="text" th:field="*{addDate}"/>
+		<span th:if="${#fields.hasErrors('addDate')}" th:each="err: ${#fields.errors('addDate')}" th:text="${err}"></span>  <br>
+		Namalowano <input type="text" th:field="*{paintedDate}"/>
+		<span th:if="${#fields.hasErrors('paintedDate')}" th:each="err: ${#fields.errors('paintedDate')}" th:text="${err}"></span>  <br>
+		Wartość <input type="text" th:field="*{value}"/> <br>
+		Wystawiono <input type="checkbox" th:field="*{exhibited}"/> <br>
+		Technika <select name="technique">
+			<option th:each="technique: ${techniques}" th:text="${technique.name}" th:value="${technique.id}">  </option>
+		</select><br>
+		<input type="submit"> Wyślij
+	</form>
 </body>
 </html>

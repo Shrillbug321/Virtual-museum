@@ -23,7 +23,7 @@ public class Painting {
     private float value;
     private boolean exhibited;
     private Technique technique;
-
+    //dodaj kierunek, nurt?
     public Painting()
     {
         this.technique = new Technique();

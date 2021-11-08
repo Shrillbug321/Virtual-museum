@@ -31,3 +31,36 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/src/main/resources/static/bootstrap.css
+/src/main/resources/static/bootstrap.css.map
+/src/main/resources/static/bootstrap.min.css
+/src/main/resources/static/bootstrap.min.css.map
+/src/main/resources/static/bootstrap.rtl.css
+/src/main/resources/static/bootstrap.rtl.css.map
+/src/main/resources/static/bootstrap.rtl.min.css
+/src/main/resources/static/bootstrap.rtl.min.css.map
+/src/main/resources/static/bootstrap-grid.css
+/src/main/resources/static/bootstrap-grid.css.map
+/src/main/resources/static/bootstrap-grid.min.css
+/src/main/resources/static/bootstrap-grid.min.css.map
+/src/main/resources/static/bootstrap-grid.rtl.css
+/src/main/resources/static/bootstrap-grid.rtl.css.map
+/src/main/resources/static/bootstrap-grid.rtl.min.css
+/src/main/resources/static/bootstrap-grid.rtl.min.css.map
+/src/main/resources/static/bootstrap-reboot.css
+/src/main/resources/static/bootstrap-reboot.css.map
+/src/main/resources/static/bootstrap-reboot.min.css
+/src/main/resources/static/bootstrap-reboot.min.css.map
+/src/main/resources/static/bootstrap-reboot.rtl.css
+/src/main/resources/static/bootstrap-reboot.rtl.css.map
+/src/main/resources/static/bootstrap-reboot.rtl.min.css
+/src/main/resources/static/bootstrap-reboot.rtl.min.css.map
+/src/main/resources/static/bootstrap-utilities.css
+/src/main/resources/static/bootstrap-utilities.css.map
+/src/main/resources/static/bootstrap-utilities.min.css
+/src/main/resources/static/bootstrap-utilities.min.css.map
+/src/main/resources/static/bootstrap-utilities.rtl.css
+/src/main/resources/static/bootstrap-utilities.rtl.css.map
+/src/main/resources/static/bootstrap-utilities.rtl.min.css
+/src/main/resources/static/bootstrap-utilities.rtl.min.css.map

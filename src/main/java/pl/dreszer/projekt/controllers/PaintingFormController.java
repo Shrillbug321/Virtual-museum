@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pl.dreszer.projekt.models.Painting;
+import pl.dreszer.projekt.models.PaintingsList;
 import pl.dreszer.projekt.models.Technique;
 import pl.dreszer.projekt.validators.PaintingValidator;
 
@@ -23,26 +24,34 @@ public class PaintingFormController
 		binder.addValidators(new PaintingValidator());
 	}
 	@RequestMapping(value="paintingForm.html", params = {"edit"})
-	protected String showForm(@RequestParam(value="paintingId", required = false, defaultValue="-1") int imagedId, Model model)
+	protected String showForm(@RequestParam(value="paintingId", required = false, defaultValue="-1") int paintingId,
+							  Model model, @RequestParam(value = "edit") boolean edit)
 	{
-		if (imagedId > -1)
+		if (edit)
 		{
-			Painting painting1 = new Painting();
-			painting1.setId(1);
-			painting1.setName("Słoneczniki");
-			painting1.setAuthor("Van Gogh");
-			painting1.setAddDate(LocalDate.of(2021, 10, 20));
-			painting1.setPaintedDate(LocalDate.of(1872, 5, 15));
-			painting1.setValue(1000000.99f);
-			painting1.setExhibited(false);
-			painting1.setTechnique(new Technique(1,"Olej na płótnie"));
-			model.addAttribute("painting", painting1);
+			if (paintingId == -1)
+			{
+				Painting painting1 = new Painting();
+				painting1.setId(1);
+				painting1.setName("Słoneczniki");
+				painting1.setAuthor("Van Gogh");
+				painting1.setAddDate(LocalDate.of(2021, 10, 20));
+				painting1.setPaintedDate(LocalDate.of(1872, 5, 15));
+				painting1.setValue(1000000.99f);
+				painting1.setExhibited(false);
+				painting1.setTechnique(new Technique(1,"Olej na płótnie"));
+				model.addAttribute("painting", painting1);
+			}
+			else
+			{
+				model.addAttribute("painting", PaintingsList.paintingsList.get(paintingId));
+			}
 		}
 		else
 		{
-			Painting painting = new Painting();
-			model.addAttribute("painting", painting);
+			model.addAttribute("painting", new Painting());
 		}
+
 		return "paintingForm";
 	}
 
@@ -58,7 +67,7 @@ public class PaintingFormController
 	}
 
 	@ModelAttribute("techniques")
-	public List<Technique> loadFramesList()
+	public List<Technique> loadTechniquesList()
 	{
 		List<Technique> techniquesList = new ArrayList<>();
 		techniquesList.add(new Technique(1,"Olej na płótnie"));
