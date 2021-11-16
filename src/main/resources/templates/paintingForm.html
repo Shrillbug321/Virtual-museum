@@ -22,6 +22,9 @@
 		Technika <select name="technique">
 			<option th:each="technique: ${techniques}" th:text="${technique.name}" th:value="${technique.id}">  </option>
 		</select><br>
+		<label> Wymiary
+			<input type="text" th:field="*{name}"/>
+		</label>
 		<input type="submit"> Wyślij
 	</form>
 </body>

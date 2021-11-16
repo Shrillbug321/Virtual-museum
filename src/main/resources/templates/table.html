@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="pl">
-<head>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{template.html}">
+<head layout:fragment="head">
     <meta charset="UTF-8">
     <title>Obrazy</title>
 </head>
 <body>
+<div layout:fragment="header" th:replace="~{fragments :: header}"></div>
 <div th:if="${paintings.size} == 0">
     <p> Brak wpisów</p>
 </div>
