@@ -5,11 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dreszer.projekt.models.PaintingsList;
-import pl.dreszer.projekt.models.Technique;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 //myDB.list.stream().filter(x->x.get()==id).?.get();
 @Controller
 public class PaintingController {

@@ -25,7 +25,11 @@
 		<label> Wymiary
 			<input type="text" th:field="*{name}"/>
 		</label>
-		<input type="submit"> Wyślij
+		<div >
+			<label th:each="genre: ${genres}" > <input type="checkbox" th:text="${genre.name}" ></label>
+
+		</div>
+		<input type="submit" value="Wyślij">
 	</form>
 </body>
 </html>

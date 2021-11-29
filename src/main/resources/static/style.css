@@ -1,0 +1,33 @@
+a
+{
+	text-decoration: none;
+}
+
+#menu
+{
+	content: none;
+}
+
+#menu
+{
+	list-style: none;
+}
+#menu li
+{
+	float:left;
+	display: block;
+	width: 100px;
+	text-align: center;
+}
+
+#menu:after
+{
+	/*clear:both;*/
+}
+
+table
+{
+	border: 3px solid black;
+	//float: left;
+}
+

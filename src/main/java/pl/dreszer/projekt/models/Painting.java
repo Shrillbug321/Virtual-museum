@@ -1,95 +1,95 @@
 package pl.dreszer.projekt.models;
 
+import lombok.*;
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
+import pl.dreszer.projekt.repositories.GenresRepository;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
-public class Painting {
+@Getter
+@Setter
+@ToString
 
+@Entity
+@Table(name="paintings")
+public class Painting
+{
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+    @Column(nullable=false)
     @NotEmpty
     private String name;
+    @Column(nullable=false)
     @NotEmpty
     private String author;
+    @Column(name="add_date", nullable=false)
     @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
     private LocalDate addDate;
+    @Column(name="painted_date", nullable=false)
     @Past
     @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
     private LocalDate paintedDate;
+    @Column(nullable=false)
     @NumberFormat(pattern = "#.00")
     private float value;
+    @Column(nullable=false)
     private boolean exhibited;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="technique_id", nullable = false)
+    @ToString.Exclude
     private Technique technique;
     //dodaj kierunek, nurt?
+    @JoinColumn(name = "genres_id")
+    @ManyToMany(fetch=FetchType.EAGER)
+    private Set<Genre> genres;
+    @Transient
+    @Autowired
+    private GenresRepository genresRepository;
     public Painting()
     {
         this.technique = new Technique();
+        this.genres = new HashSet<>();
     }
 
-    public int getId() {
-        return id;
+    @Bean("paintingBean")
+    public Painting createPainting()
+    {
+        Painting painting = new Painting();
+        painting.setId(1);
+        painting.setName("Słoneczniki");
+        painting.setAuthor("Van Gogh");
+        painting.setAddDate(LocalDate.of(2021, 10, 20));
+        painting.setPaintedDate(LocalDate.of(1872, 5, 15));
+        painting.setValue(1000000.99f);
+        painting.setExhibited(false);
+        painting.setTechnique(new Technique(1,"Olej na płótnie"));
+        Set<Genre> a = new HashSet<>();
+        //a.add(new Genre(1,"lll"));
+        painting.setGenres(a);
+        return painting;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    /*@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Painting painting = (Painting) o;
+        return id != null && Objects.equals(id, painting.id);
+    }*/
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getAddDate() {
-        return addDate;
-    }
-
-    public void setAddDate(LocalDate addDate) {
-        this.addDate = addDate;
-    }
-
-    public float getValue() {
-        return value;
-    }
-
-    public void setValue(float value) {
-        this.value = value;
-    }
-
-    public boolean isExhibited() {
-        return exhibited;
-    }
-
-    public void setExhibited(boolean exhibited) {
-        exhibited = exhibited;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public LocalDate getPaintedDate() {
-        return paintedDate;
-    }
-
-    public void setPaintedDate(LocalDate paintedDate) {
-        this.paintedDate = paintedDate;
-    }
-
-    public Technique getTechnique() {
-        return technique;
-    }
-
-    public void setTechnique(Technique technique) {
-        this.technique = technique;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

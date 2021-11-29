@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head}">
+</head>
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header}"></div>
+<div layout:fragment="content">
+    <p> Usunięto obraz o id <span th:text="${imageId}"> </span> </p>
+</div>
+</body>
+</html>

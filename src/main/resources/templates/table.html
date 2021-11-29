@@ -2,28 +2,34 @@
 <html lang="pl"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{template.html}">
-<head layout:fragment="head">
-    <meta charset="UTF-8">
-    <title>Obrazy</title>
+<head th:replace="~{fragments :: head}">
 </head>
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header}"></div>
-<div th:if="${paintings.size} == 0">
-    <p> Brak wpisów</p>
-</div>
-<div th:if="${paintings.size} > 0">
-    <table th:each="painting : ${paintings}">
-        <tr> <td> </td> <td th:text="${painting.name}"> </td> </tr>
-        <tr> <td> </td> <td th:text="${painting.author}"> </td> </tr>
-        <tr> <td> </td> <td th:text="${#temporals.format(painting.addDate, 'dd-MM-yyyy HH:mm')}"> </td> </tr>
-        <tr> <td> </td> <td th:text="${#temporals.format(painting.paintedDate, 'dd-MM-yyyy HH:mm')}"> </td> </tr>
-        <tr> <td> </td> <td th:text="${#numbers.formatDecimal(painting.value, 2, 3, 'COMMA')}"> </td> </tr>
-        <tr> <td> </td> <td th:if="${painting.isExhibited} == false"> nie</td> <td th:if="${painting.isExhibited} == true"> tak</td> </tr>
-        <tr> <td> </td> <td th:text="${painting.technique.name}"> </td> </tr>
-        <tr> <td> </td> <td> <a th:href="@{paintingForm.html(edit=true,imageId=${painting.id})}"> Edytuj </a> </td> </tr>
-    </table>
-    <a th:href="@{paintingForm.html(edit=false)}"> Dodaj </a>
-</div>
+<div layout:fragment="content">
 
+    <form th:method="POST">
+        <input type="text"> <input type="submit">
+    </form>
+
+    <div th:if="${paintings.size} == 0">
+        <p> Brak wpisów</p>
+    </div>
+    <div th:if="${paintings.size} > 0">
+        <table th:each="painting : ${paintings}">
+            <tr> <td> </td> <td th:text="${painting.name}"> </td> </tr>
+            <tr> <td> </td> <td th:text="${painting.author}"> </td> </tr>
+            <tr> <td> </td> <td th:text="${#temporals.format(painting.addDate, 'dd-MM-yyyy HH:mm')}"> </td> </tr>
+            <tr> <td> </td> <td th:text="${#temporals.format(painting.paintedDate, 'dd-MM-yyyy HH:mm')}"> </td> </tr>
+            <tr> <td> </td> <td th:text="${#numbers.formatDecimal(painting.value, 2, 3, 'COMMA')}"> </td> </tr>
+            <tr> <td> </td> <td th:if="${painting.isExhibited} == false"> nie</td> <td th:if="${painting.isExhibited} == true"> tak</td> </tr>
+            <tr> <td> </td> <td th:text="${painting.technique.name}"> </td> </tr>
+            <!--<tr> <td> </td> <td th:text="${painting.genre.name}"> </td> </tr>-->
+            <tr> <td> </td> <td> <a th:href="@{paintingForm.html(edit=true,imageId=${painting.id})}"> Edytuj </a> </td> </tr>
+            <tr> <td> </td> <td> <a th:href="@{delete.html(imageId=${painting.id})}"> Usuń </a> </td> </tr>
+        </table>
+        <a th:href="@{paintingForm.html(edit=false)}"> Dodaj </a>
+    </div>
+</div>
 </body>
 </html>
