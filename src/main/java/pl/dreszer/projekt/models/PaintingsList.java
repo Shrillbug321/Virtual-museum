@@ -1,4 +1,4 @@
-package pl.dreszer.projekt.models;
+/*package pl.dreszer.projekt.models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,4 +21,4 @@ public class PaintingsList {
 		painting1.setTechnique(new Technique(1, "Olej na płótnie"));
 		paintingsList.add(painting1);
 	}
-}
+}*/

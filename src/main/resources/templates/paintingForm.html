@@ -1,35 +1,53 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-	<meta charset="UTF-8">
-	<title>Formularz obrazu</title>
-</head>
+<html lang="pl"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Formularz obrazu')}">
 <body>
-	<form th:method="POST" th:object="${painting}"> <br>
-		<label> Nazwa
-			<input type="text" th:field="*{name}"/>
-		</label> <br>
-		<label> Autor
-			<input type="text" th:field="*{author}"/>
-		</label>
-		<span th:if="${#fields.hasErrors('author')}" th:each="err: ${#fields.errors('author')}" th:text="${err}"></span>  <br>
-		Dodano <input type="text" th:field="*{addDate}"/>
-		<span th:if="${#fields.hasErrors('addDate')}" th:each="err: ${#fields.errors('addDate')}" th:text="${err}"></span>  <br>
-		Namalowano <input type="text" th:field="*{paintedDate}"/>
-		<span th:if="${#fields.hasErrors('paintedDate')}" th:each="err: ${#fields.errors('paintedDate')}" th:text="${err}"></span>  <br>
-		Wartość <input type="text" th:field="*{value}"/> <br>
-		Wystawiono <input type="checkbox" th:field="*{exhibited}"/> <br>
-		Technika <select name="technique">
-			<option th:each="technique: ${techniques}" th:text="${technique.name}" th:value="${technique.id}">  </option>
-		</select><br>
-		<label> Wymiary
-			<input type="text" th:field="*{name}"/>
-		</label>
-		<div >
-			<label th:each="genre: ${genres}" > <input type="checkbox" th:text="${genre.name}" ></label>
+	<div layout:fragment="header" th:replace="~{fragments :: header}"></div>
+	<div layout:fragment="content">
+		<form th:method="POST" th:object="${painting}"> <br>
+			<label> Nazwa
+				<input type="text" th:field="*{name}"/>
+			</label> <br>
 
-		</div>
-		<input type="submit" value="Wyślij">
-	</form>
+			<label> Autor
+				<input type="text" th:field="*{author}"/>
+				<span th:if="${#fields.hasErrors('author')}" th:each="err: ${#fields.errors('author')}" th:text="${err}"></span>
+			</label> <br>
+
+			<label> Dodano
+				<input type="text" th:field="*{addDate}"/>
+				<span th:if="${#fields.hasErrors('addDate')}" th:each="err: ${#fields.errors('addDate')}" th:text="${err}"></span>
+			</label> <br>
+
+			<label>	Namalowano <input type="text" th:field="*{paintedDate}"/>
+				<span th:if="${#fields.hasErrors('paintedDate')}" th:each="err: ${#fields.errors('paintedDate')}" th:text="${err}"></span>
+			</label> <br>
+
+			<label>	Wartość <input type="text" th:field="*{value}"/>
+				<span th:if="${#fields.hasErrors('value')}" th:each="err: ${#fields.errors('value')}" th:text="${err}"> </span>
+			</label> <br>
+
+			<label>	Wystawiono <input type="checkbox" th:field="*{exhibited}"/> <br>
+			</label> <br>
+
+			<label> Technika
+				<select name="technique">
+					<option th:each="technique: ${techniques}" th:text="${technique.name}" th:value="${technique.id}">  </option>
+				</select>
+			</label> <br>
+
+			<label> Wymiary
+				<input type="text" th:field="*{name}"/>
+			</label> <br>
+
+			<div>
+				<label th:each="genre: ${genres}"> <input type="checkbox" th:text="${genre.name}"> </label>
+			</div> <br>
+			<input type="submit" value="Wyślij">
+		</form>
+	</div>
 </body>
 </html>

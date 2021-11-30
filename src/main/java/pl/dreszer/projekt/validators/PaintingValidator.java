@@ -19,5 +19,9 @@ public class PaintingValidator implements Validator {
         {
             errors.rejectValue("author", "Error.painting.equalsAuthorAndName");
         }
+        /*if ( Math.ceil(painting.getValue()*100) > painting.getValue()*100)
+        {
+            errors.rejectValue("value", "NumberFormat.painting.value");
+        }*/
     }
 }

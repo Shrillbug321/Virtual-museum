@@ -27,7 +27,13 @@ a
 
 table
 {
-	border: 3px solid black;
 	//float: left;
+}
+
+td
+{
+	border-collapse: collapse;
+	border: 2px solid black;
+	padding: 5px;
 }
 

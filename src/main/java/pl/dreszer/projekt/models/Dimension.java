@@ -9,9 +9,8 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Dimension {
-	private Float width;
-	private Float height;
-
+	private float width;
+	private float height;
 
 	public Dimension(Float width, Float heigth) {
 		this.width = width;

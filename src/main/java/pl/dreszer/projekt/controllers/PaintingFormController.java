@@ -1,5 +1,6 @@
 package pl.dreszer.projekt.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -7,8 +8,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
-import pl.dreszer.projekt.models.PaintingsList;
 import pl.dreszer.projekt.models.Technique;
+import pl.dreszer.projekt.repositories.PaintingsRepository;
 import pl.dreszer.projekt.validators.PaintingValidator;
 
 import javax.validation.Valid;
@@ -18,6 +19,8 @@ import java.util.*;
 @Controller
 public class PaintingFormController
 {
+	@Autowired
+	private PaintingsRepository paintingsRepository;
 	@InitBinder("painting")
 	public void initBinder(WebDataBinder binder)
 	{
@@ -25,37 +28,16 @@ public class PaintingFormController
 	}
 	@RequestMapping(value="paintingForm.html", params = {"edit"})
 	protected String showForm(@RequestParam(value="paintingId", required = false, defaultValue="-1") int paintingId,
-							  Optional<Painting> painting, Model model, @RequestParam(value = "edit") boolean edit)
+							  Model model, @RequestParam(value = "edit") boolean edit)
 	{
-		if (edit)
+		if (edit && paintingId > 0)
 		{
-			model.addAttribute("painting", painting.orElse(new Painting()));
-			/*if (paintingId == -1)
-			{
-				Painting painting1 = new Painting();
-				painting1.setId(1);
-				painting1.setName("Słoneczniki");
-				painting1.setAuthor("Van Gogh");
-				painting1.setAddDate(LocalDate.of(2021, 10, 20));
-				painting1.setPaintedDate(LocalDate.of(1872, 5, 15));
-				painting1.setValue(1000000.99f);
-				painting1.setExhibited(false);
-				painting1.setTechnique(new Technique(1,"Olej na płótnie"));
-				Set<Genre> a = new HashSet<>();
-				a.add(new Genre(1,"lll"));
-				//painting1.setGenres(a);
-				model.addAttribute("painting", painting1);
-			}*/
-			//else
-			{
-				//model.addAttribute("painting", PaintingsList.paintingsList.get(paintingId));
-			}
+			model.addAttribute("painting", paintingsRepository.getById(paintingId));
 		}
 		else
 		{
 			model.addAttribute("painting", new Painting());
 		}
-
 		return "paintingForm";
 	}
 
@@ -64,8 +46,8 @@ public class PaintingFormController
 	{
 		if (result.hasErrors())
 			return "paintingForm";
-		if (painting.getId() != 0)
-			painting.setId(2);
+		//if (painting.getId() != 0)
+			paintingsRepository.save(painting);
 		model.addAttribute("painting", painting);
 		return "successPaintingForm";
 	}

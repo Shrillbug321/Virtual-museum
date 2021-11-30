@@ -31,9 +31,11 @@ public class RepositoriesConfiguration{
             //a.add(new Genre(1,"hj"));
             if(paintingsRepository.findAll().isEmpty())
             {
-                //paintingsRepository.save(createPainting());
-                //Technique technique = new Technique(1,"55");
-                //paintingsRepository.save(technique);
+                Technique technique = new Technique(1,"Olej na płótnie");
+                techniquesRepository.save(technique);
+                technique = new Technique(2,"Olej na miedzi");
+                techniquesRepository.save(technique);
+                paintingsRepository.save(createPainting());
             }
         };
     }

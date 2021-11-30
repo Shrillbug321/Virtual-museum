@@ -1,12 +1,10 @@
-package pl.dreszer.projekt.controllers;
+/*package pl.dreszer.projekt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
-
-import static pl.dreszer.projekt.models.PaintingsList.paintingsList;
 
 @Controller
 public class PaintingsListController {
@@ -17,7 +15,7 @@ public class PaintingsListController {
     @RequestMapping("table.html")
     public String handleRequest(Model model)
     {
-        model.addAttribute("paintings", paintingsList);
+        model.addAttribute("paintings", paintingsRepository.findAll());
         return "table";
     }
 
@@ -36,4 +34,4 @@ public class PaintingsListController {
     }
 
 
-}
+}*/
