@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import pl.dreszer.projekt.controllers.filters.PaintingFilter;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
@@ -44,12 +45,36 @@ public class PaintingFormController
 	@PostMapping(value="paintingForm.html", params = {"edit"})
 	protected String processForm(Model model, @ModelAttribute("painting") @Valid Painting painting, BindingResult result)
 	{
+		System.out.println(result.getAllErrors());
 		if (result.hasErrors())
 			return "paintingForm";
 		//if (painting.getId() != 0)
 			paintingsRepository.save(painting);
 		model.addAttribute("painting", painting);
 		return "successPaintingForm";
+	}
+
+	@PostMapping(value="processSearch.html", params="name")
+	protected String searchForm(PaintingFilter paintingFilter, Model model)
+	{
+		//System.out.println(paintingFilter.getPhrase());
+		model.addAttribute("paintings", paintingsRepository.findByName("Słoneczniki"));
+		//System.out.println(paintingsRepository.findByName(paintingFilter.getPhrase()).getName());
+		return "searchResult";
+	}
+
+	@RequestMapping(value="searchForm.html")
+	protected String showSearchForm(PaintingFilter paintingFilter, Model model)
+	{
+		model.addAttribute("paintingFilter", paintingFilter);
+		return "searchForm";
+	}
+
+	@RequestMapping(value="byName.html")
+	protected String showSeaarchForm(PaintingFilter paintingFilter, Model model)
+	{
+		model.addAttribute("paintingFilter", paintingFilter);
+		return "searchForm";
 	}
 
 	@ModelAttribute("techniques")

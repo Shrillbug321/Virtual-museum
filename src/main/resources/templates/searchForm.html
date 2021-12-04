@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Obrazy')}">
+</head>
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('search')}"></div>
+<div layout:fragment="content">
+    <form th:method="POST" th:action="processSearch.html" th:object="${filter}">
+        <input type="text" th:field="*{phrase}"> <input type="submit">
+    </form>
+</div>
+</body>
+</html>

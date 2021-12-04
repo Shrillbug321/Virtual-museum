@@ -9,6 +9,7 @@ import pl.dreszer.projekt.repositories.GenresRepository;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,28 +20,38 @@ import java.util.Set;
 @ToString
 
 @Entity
+@NamedQuery(name="Painting.findByName", query="select p from Painting p where p.name = ?1")
 @Table(name="paintings")
 public class Painting
 {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+
     @Column(nullable=false)
     @NotEmpty
     private String name;
+
     @Column(nullable=false)
     @NotEmpty
     private String author;
+
     @Column(name="add_date", nullable=false)
+    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
     private LocalDate addDate;
+
     @Column(name="painted_date", nullable=false)
     @Past
+    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
     private LocalDate paintedDate;
+
     @Column(nullable=false)
-    @NumberFormat(pattern = "#.00")
+    @NotNull
+    @NumberFormat(pattern = "#.##")
     private float value;
+
     @Column(nullable=false)
     private boolean exhibited;
     @ManyToOne(fetch=FetchType.LAZY)
@@ -48,6 +59,7 @@ public class Painting
     @ToString.Exclude
     private Technique technique;
     //dodaj kierunek, nurt?
+
     @JoinColumn(name = "genres_id")
     @ManyToMany(fetch=FetchType.EAGER)
     private Set<Genre> genres;

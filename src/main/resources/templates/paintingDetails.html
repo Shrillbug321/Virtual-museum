@@ -4,11 +4,9 @@
 	  layout:decorate="~{template.html}">
 <head th:replace="~{fragments :: head('Sczegóły obrazu')}">
 <body>
-	<div layout:fragment="header" th:replace="~{fragments :: header}"></div>
+	<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 	<div layout:fragment="content">
-		<form th:method="POST">
-			<input type="text"> <input type="submit">
-		</form>
+
 		<a th:href="@{paintingForm.html(edit=false)}"> Dodaj </a>
 		<table th:object="${painting}">
 			<tr> <td> Nazwa</td> <td th:text="*{name}"> </td> </tr>

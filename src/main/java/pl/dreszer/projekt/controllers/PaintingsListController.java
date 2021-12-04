@@ -26,7 +26,7 @@ public class PaintingsListController {
         model.addAttribute("imageId", imageId);
         return "delete";
     }
-    @RequestMapping(name="search.html", params={"phrase"})
+    @RequestMapping(name="searchForm.html", params={"phrase"})
     public String deletePainting(Model model, String phrase)
     {
         model.addAttribute("phrase", phrase);

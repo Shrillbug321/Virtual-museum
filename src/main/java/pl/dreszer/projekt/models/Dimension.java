@@ -12,9 +12,9 @@ public class Dimension {
 	private float width;
 	private float height;
 
-	public Dimension(Float width, Float heigth) {
+	public Dimension(Float width, Float height) {
 		this.width = width;
-		this.height = heigth;
+		this.height = height;
 	}
 
 }

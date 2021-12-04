@@ -10,6 +10,7 @@
 		<form th:method="POST" th:object="${painting}"> <br>
 			<label> Nazwa
 				<input type="text" th:field="*{name}"/>
+				<span th:if="${#fields.hasErrors('name')}" th:each="err: ${#fields.errors('name')}" th:text="${err}"></span>
 			</label> <br>
 
 			<label> Autor
@@ -39,9 +40,9 @@
 				</select>
 			</label> <br>
 
-			<label> Wymiary
+			<!--<label> Wymiary
 				<input type="text" th:field="*{name}"/>
-			</label> <br>
+			</label> <br>-->
 
 			<div>
 				<label th:each="genre: ${genres}"> <input type="checkbox" th:text="${genre.name}"> </label>

@@ -64,3 +64,6 @@ build/
 /src/main/resources/static/bootstrap-utilities.rtl.css.map
 /src/main/resources/static/bootstrap-utilities.rtl.min.css
 /src/main/resources/static/bootstrap-utilities.rtl.min.css.map
+/src/main/database/database.mv.db
+/src/main/database/database.trace.db
+/src/test/java/com/example/demo/DemoApplicationTests.java

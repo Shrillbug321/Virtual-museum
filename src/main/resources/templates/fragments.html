@@ -8,11 +8,11 @@
 	<link rel="stylesheet" th:href="@{style.css}">
 </head>
 <body>
-	<div th:fragment="header">
+	<div th:fragment="header(item)">
 		<a th:href="index.html"> Wirtualne muzeum </a>
 		<ul id="menu">
-			<li> <a href="paintings.html">Obrazy</a> </li>
-			<li> <a href="table.html">Tabela</a> </li>
+			<li th:classappend="${name == [[item]] ? 'activeMenuItem' : 'menuItem'}" name="paintings"> <a href="paintings.html">Obrazy</a> </li>
+			<li > <a href="searchForm.html">Szukaj</a> </li>
 			<li>A</li>
 		</ul>
 		<div style="clear:both"></div>
