@@ -7,9 +7,10 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-    <form th:method="POST">
-        <input type="text"> <input type="submit">
-    </form>
+   <!-- <form th:method="POST" th:action="processSearch.html" th:object="${filter}">
+        <input type="text" th:field="*{phrase}">
+        <input type="submit">
+    </form>-->
     <div th:if="${paintings.size} == 0">
         <p> Brak wpisów</p>
     </div>

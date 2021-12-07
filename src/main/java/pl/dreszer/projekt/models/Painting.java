@@ -3,6 +3,7 @@ package pl.dreszer.projekt.models;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import pl.dreszer.projekt.repositories.GenresRepository;
@@ -20,7 +21,15 @@ import java.util.Set;
 @ToString
 
 @Entity
-@NamedQuery(name="Painting.findByName", query="select p from Painting p where p.name = ?1")
+@NamedEntityGraph
+        (
+                name="pgraph",
+                attributeNodes = {
+                        @NamedAttributeNode("technique"),
+                        @NamedAttributeNode("genres")
+                }
+        )
+@NamedQuery(name="Painting.findByTechnique", query="select p, t from Painting p, Technique t where t.name = ?1 or p.name=?1")
 @Table(name="paintings")
 public class Painting
 {

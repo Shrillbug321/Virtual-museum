@@ -1,27 +1,36 @@
 package pl.dreszer.projekt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pl.dreszer.projekt.controllers.filters.PaintingFilter;
+import pl.dreszer.projekt.controllers.filters.PaintingsSpecifications;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
 import pl.dreszer.projekt.validators.PaintingValidator;
 
+
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Controller
 public class PaintingFormController
 {
 	@Autowired
 	private PaintingsRepository paintingsRepository;
+	//@Autowired
+	private PaintingsSpecifications paintingsSpecifications;
+	private Specification<Painting> specification;
+	private Stream<Painting> paintingStream;
 	@InitBinder("painting")
 	public void initBinder(WebDataBinder binder)
 	{
@@ -53,27 +62,54 @@ public class PaintingFormController
 		model.addAttribute("painting", painting);
 		return "successPaintingForm";
 	}
-
-	@PostMapping(value="processSearch.html", params="name")
-	protected String searchForm(PaintingFilter paintingFilter, Model model)
+	@PostMapping(value="processSearch.html")
+	@Transactional(readOnly = true)
+	public String searchForm(PaintingFilter paintingFilter, Model model)
 	{
-		//System.out.println(paintingFilter.getPhrase());
-		model.addAttribute("paintings", paintingsRepository.findByName("Słoneczniki"));
-		//System.out.println(paintingsRepository.findByName(paintingFilter.getPhrase()).getName());
+		System.out.println(paintingFilter.getPhrase());
+		List<Painting> foundPaintings = null;
+		LocalDate minDate, maxDate;
+		switch (paintingFilter.getWhere())
+		{
+			case "name":
+				//foundPaintings = paintingsRepository.findAll(PaintingsSpecifications.findByPhrase(paintingFilter.getPhrase()));
+				foundPaintings = paintingsRepository.findByNameContainingIgnoreCase(paintingFilter.getPhrase());
+				break;
+			case "technique":
+				foundPaintings = paintingsRepository.findByTechnique(paintingFilter.getPhrase());
+				break;
+			case "author":
+				foundPaintings = paintingsRepository.findByAuthor(paintingFilter.getPhrase());
+				break;
+			case "paintingValue":
+				foundPaintings = paintingsRepository.findByValue(paintingFilter);
+				break;
+			case "paintedDate":
+				minDate = LocalDate.parse(paintingFilter.getMinDate());
+				maxDate = LocalDate.parse(paintingFilter.getMaxDate());
+				foundPaintings = paintingsRepository.findAll(PaintingsSpecifications.findByPaintedDate(minDate, maxDate));
+				break;
+			case "addDate":
+				minDate = LocalDate.parse(paintingFilter.getMinDate());
+				maxDate = LocalDate.parse(paintingFilter.getMaxDate());
+				try (Stream<Painting> paintingStream = paintingsRepository.findByAddDate(minDate,maxDate))
+				{
+					List<Painting> finalFoundPaintings = new ArrayList<>();
+					paintingStream.forEach(painting -> finalFoundPaintings.add(painting));
+					foundPaintings = finalFoundPaintings;
+				}
+				//foundPaintings = paintingsRepository.findAll(PaintingsSpecifications.findByPaintedDate(minDate, maxDate));
+				break;
+		}
+
+		model.addAttribute("paintings", foundPaintings);
 		return "searchResult";
 	}
 
 	@RequestMapping(value="searchForm.html")
 	protected String showSearchForm(PaintingFilter paintingFilter, Model model)
 	{
-		model.addAttribute("paintingFilter", paintingFilter);
-		return "searchForm";
-	}
-
-	@RequestMapping(value="byName.html")
-	protected String showSeaarchForm(PaintingFilter paintingFilter, Model model)
-	{
-		model.addAttribute("paintingFilter", paintingFilter);
+		model.addAttribute("filter", paintingFilter);
 		return "searchForm";
 	}
 
