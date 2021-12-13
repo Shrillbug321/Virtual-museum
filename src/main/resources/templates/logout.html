@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Logowanie')}">
+<body>
+<div layout:fragment="content">
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" value="Wyloguj się">
+  </form>
+</div>
+</body>
+</html>

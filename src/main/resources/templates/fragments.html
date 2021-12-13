@@ -1,24 +1,37 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:fragment="head(title)">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>[[${title}]]</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-	<link rel="stylesheet" th:href="@{style.css}">
+	<link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
 	<div th:fragment="header(item)">
 		<a th:href="index.html"> Wirtualne muzeum </a>
 		<ul id="menu">
-			<li th:classappend="${name == [[item]] ? 'activeMenuItem' : 'menuItem'}" name="paintings"> <a href="paintings.html">Obrazy</a> </li>
+			<li th:classappend="${name == [[item]] ? 'activeMenuItem' : 'menuItem'}" name="paintings" sec:authorize="hasAnyRole('USER', 'ADMIN')"> <a href="paintings.html">Obrazy</a> </li>
 			<li > <a href="searchForm.html">Szukaj</a> </li>
+			<li sec:authorize="isAuthenticated()">
+				<p> Witaj <span sec:authentication="name"> </span></p>
+				<form th:action="@{/logout}" method="post">
+					<input type="submit" value="Wyloguj się">
+				</form>
+			</li>
+
+			<li >  </li>
 			<li>A</li>
 		</ul>
 		<div style="clear:both"></div>
 	</div>
 	<div th:fragment="footer">
 		<p> Wirtualne muzeum &copy; Sebastian Dreszer 2021 </p>
+		<span th:each="role: ${#authentication.getAuthorities()}">
+       	<span th:text="${role}"/>
+   </span>
+
 	</div>
 
 </body>

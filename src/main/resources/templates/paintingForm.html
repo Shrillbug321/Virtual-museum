@@ -5,7 +5,7 @@
 	  layout:decorate="~{template.html}">
 <head th:replace="~{fragments :: head('Formularz obrazu')}">
 <body>
-	<div layout:fragment="header" th:replace="~{fragments :: header}"></div>
+	<div layout:fragment="header" th:replace="~{fragments :: header('painting')}"></div>
 	<div layout:fragment="content">
 		<form th:method="POST" th:object="${painting}"> <br>
 			<label> Nazwa

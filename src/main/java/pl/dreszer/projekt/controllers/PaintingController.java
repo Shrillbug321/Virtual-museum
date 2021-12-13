@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
 
@@ -14,9 +15,9 @@ public class PaintingController {
     PaintingsRepository paintingsRepository;
     @EntityGraph(value="pgraph", type= EntityGraph.EntityGraphType.FETCH)
     @RequestMapping("paintingDetails.html")
-    public String paintingDetails(Model model)
+    public String paintingDetails(Model model, int paintingId)
     {
-        model.addAttribute("painting", paintingsRepository.getById(1));
+        model.addAttribute("painting", paintingsRepository.getById(paintingId));
         return "paintingDetails";
     }
     @EntityGraph(value="pgraph", type= EntityGraph.EntityGraphType.FETCH)
@@ -27,5 +28,10 @@ public class PaintingController {
         return "paintings";
     }
 
+    @GetMapping("index.html")
+    public String home()
+    {
+        return "index";
+    }
 
 }

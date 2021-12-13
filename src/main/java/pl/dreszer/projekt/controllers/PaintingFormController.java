@@ -2,6 +2,7 @@ package pl.dreszer.projekt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -15,7 +16,6 @@ import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
 import pl.dreszer.projekt.validators.PaintingValidator;
-
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -36,6 +36,8 @@ public class PaintingFormController
 	{
 		binder.addValidators(new PaintingValidator());
 	}
+
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="paintingForm.html", params = {"edit"})
 	protected String showForm(@RequestParam(value="paintingId", required = false, defaultValue="-1") int paintingId,
 							  Model model, @RequestParam(value = "edit") boolean edit)
@@ -51,6 +53,7 @@ public class PaintingFormController
 		return "paintingForm";
 	}
 
+	@Secured("ROLE_ADMIN")
 	@PostMapping(value="paintingForm.html", params = {"edit"})
 	protected String processForm(Model model, @ModelAttribute("painting") @Valid Painting painting, BindingResult result)
 	{
