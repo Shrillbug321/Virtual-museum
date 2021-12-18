@@ -4,11 +4,17 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
+import pl.dreszer.projekt.models.authorization.Role;
+import pl.dreszer.projekt.models.authorization.User;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +26,10 @@ public class RepositoriesConfiguration{
     TechniquesRepository techniquesRepository;
     @Autowired
     GenresRepository genresRepository;
+    @Autowired
+    UsersRepository usersRepository;
+    @Autowired
+    RolesRepository rolesRepository;
     @Bean
     InitializingBean init()
     {
@@ -28,7 +38,6 @@ public class RepositoriesConfiguration{
             genresRepository.save(new Genre(1,"Sielanka"));
             genresRepository.save(new Genre(2,"Martwa natura"));
             genresRepository.save(new Genre(3,"Rysunek"));
-            //a.add(new Genre(1,"hj"));
             if(paintingsRepository.findAll().isEmpty())
             {
                 Technique technique = new Technique(1,"Olej na płótnie");
@@ -37,6 +46,30 @@ public class RepositoriesConfiguration{
                 techniquesRepository.save(technique);
                 paintingsRepository.save(createPainting());
             }
+
+            if(rolesRepository.findAll().isEmpty())
+            {
+                Role roleUser = new Role(Role.Types.ROLE_USER);
+                Role roleAdmin = new Role(Role.Types.ROLE_ADMIN);
+                rolesRepository.save(roleUser);
+                rolesRepository.save(roleAdmin);
+
+                PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                User user = new User("user", true);
+                user.setPassword(passwordEncoder.encode("123"));
+                user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
+                User admin = new User("admin", true);
+                admin.setPassword((passwordEncoder.encode("admin")));
+                admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
+                User superuser = new User("superuser", true);
+                superuser.setPassword((passwordEncoder.encode("123")));
+                superuser.setRoles(new HashSet<>(Arrays.asList(roleUser, roleAdmin)));
+
+                usersRepository.save(user);
+                usersRepository.save(admin);
+                usersRepository.save(superuser);
+            }
+
         };
     }
 

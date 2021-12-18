@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Formularz obrazu')}">
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('painting')}"></div>
+<div layout:fragment="content">
+    <form th:method="POST" th:action="uploadFile.html" enctype="multipart/form-data"> <br>
+        <input type="file" name="multiPartFile">
+        <input type="submit" value="Wyślij">
+    </form>
+</div>
+</body>
+</html>

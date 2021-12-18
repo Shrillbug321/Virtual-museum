@@ -28,10 +28,5 @@ public class PaintingController {
         return "paintings";
     }
 
-    @GetMapping("index.html")
-    public String home()
-    {
-        return "index";
-    }
 
 }

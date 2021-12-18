@@ -1,6 +1,7 @@
 package pl.dreszer.projekt.configurations;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +22,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Profile(Profiles.USERS_IN_MEMORY)
 	@Bean
 	public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder)
 	{
@@ -45,10 +47,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSec) throws Exception
 	{
 		httpSec.authorizeRequests()
-			.antMatchers("/css/**", "/index**", "/paintings**").permitAll()
+			.antMatchers("/css/**", "/index**", "/paintings**", "/h2-console/**").permitAll()
 			.antMatchers("/paintingsDetails**").hasRole("USER")
 			.antMatchers("/paintingForm**", "delete**").hasRole("ADMIN")
-				.anyRequest().authenticated();
+			.anyRequest().authenticated()
+			.and().csrf().ignoringAntMatchers("/h2-console/**")
+			.and().headers().frameOptions().sameOrigin();
 		httpSec.formLogin().loginPage("/login").permitAll();
 		httpSec.logout().permitAll();
 		httpSec.exceptionHandling().accessDeniedPage("/403");
