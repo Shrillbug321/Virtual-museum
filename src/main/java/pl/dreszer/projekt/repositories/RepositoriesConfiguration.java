@@ -58,9 +58,11 @@ public class RepositoriesConfiguration{
                 User user = new User("user", true);
                 user.setPassword(passwordEncoder.encode("123"));
                 user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
+
                 User admin = new User("admin", true);
                 admin.setPassword((passwordEncoder.encode("admin")));
                 admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
+
                 User superuser = new User("superuser", true);
                 superuser.setPassword((passwordEncoder.encode("123")));
                 superuser.setRoles(new HashSet<>(Arrays.asList(roleUser, roleAdmin)));

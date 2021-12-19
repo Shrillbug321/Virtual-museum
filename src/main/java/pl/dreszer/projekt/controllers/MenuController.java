@@ -17,10 +17,5 @@ public class MenuController {
 	{
 		return "index";
 	}
-	@RequestMapping("uploadFile.html")
-	public String file()
-	{
-		return "uploadFile";
-	}
 	//@GetMapping("register")
 }
