@@ -7,8 +7,9 @@
 <div layout:fragment="header" th:replace="~{fragments :: header('painting')}"></div>
 <div layout:fragment="content">
     <form th:method="POST" th:action="uploadFile.html" enctype="multipart/form-data"> <br>
-        <input type="file" name="multipartFile">
+        <input type="file" name="multipartFile" accept=".gif, .png, .jpg, .jpeg, .bmp">
         <input type="submit" value="Wyślij">
+        <input value="1" name="paintingId" hidden>
     </form>
 </div>
 </body>

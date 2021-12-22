@@ -1,25 +1,31 @@
 package pl.dreszer.projekt.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
+import pl.dreszer.projekt.configurations.Profiles;
 import pl.dreszer.projekt.repositories.GenresRepository;
+import pl.dreszer.projekt.repositories.TechniquesRepository;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.stream.Collectors;
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Setter
 @ToString
-
+@Profile(Profiles.PLAIN_CONTROLLERS)
 @Entity
 @NamedEntityGraph
         (
@@ -31,11 +37,11 @@ import java.util.Set;
         )
 @NamedQuery(name="Painting.findByTechnique", query="select p, t from Painting p, Technique t where t.name = ?1 or p.name=?1")
 @Table(name="paintings")
-public class Painting
+public class Painting implements Serializable
 {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private int paintingId;
 
     @Column(nullable=false)
     @NotEmpty
@@ -63,15 +69,20 @@ public class Painting
 
     @Column(nullable=false)
     private boolean exhibited;
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="technique_id", nullable = false)
     @ToString.Exclude
     private Technique technique;
     //dodaj kierunek, nurt?
 
-    @JoinColumn(name = "genres_id")
     @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name="paintings_genres",
+            joinColumns = @JoinColumn(name="painting_id"),
+            inverseJoinColumns = @JoinColumn(name="genre_id"))
     private Set<Genre> genres;
+    @Transient
+    @Autowired
+    private TechniquesRepository techniquesRepository;
     @Transient
     @Autowired
     private GenresRepository genresRepository;
@@ -81,32 +92,15 @@ public class Painting
         this.genres = new HashSet<>();
     }
 
-    @Bean("paintingBean")
-    public Painting createPainting()
+    public void setGenresIds(Set<Integer> genresIds)
     {
-        Painting painting = new Painting();
-        painting.setId(1);
-        painting.setName("Słoneczniki");
-        painting.setAuthor("Van Gogh");
-        painting.setAddDate(LocalDate.of(2021, 10, 20));
-        painting.setPaintedDate(LocalDate.of(1872, 5, 15));
-        painting.setValue(1000000.99f);
-        painting.setExhibited(false);
-        painting.setTechnique(new Technique(1,"Olej na płótnie"));
-        Set<Genre> a = new HashSet<>();
-        //a.add(new Genre(1,"lll"));
-        painting.setGenres(a);
-        return painting;
+        //genres = genresIds.stream().map(x->new Genre(x)).collect(Collectors.toSet());
     }
 
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Painting painting = (Painting) o;
-        return id != null && Objects.equals(id, painting.id);
+    /*public  void setTechnique(int techniqueId)
+    {
+        technique = techniquesRepository.getById(techniqueId);
     }*/
-
     @Override
     public int hashCode() {
         return getClass().hashCode();

@@ -9,15 +9,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.dreszer.projekt.controllers.filters.PaintingFilter;
 import pl.dreszer.projekt.controllers.filters.PaintingsSpecifications;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
+import pl.dreszer.projekt.services.FileServiceImpl;
 import pl.dreszer.projekt.validators.PaintingValidator;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Stream;
@@ -27,6 +30,8 @@ public class PaintingFormController
 {
 	@Autowired
 	private PaintingsRepository paintingsRepository;
+	@Autowired
+	private FileServiceImpl fileService;
 	//@Autowired
 	private PaintingsSpecifications paintingsSpecifications;
 	private Specification<Painting> specification;
@@ -50,18 +55,25 @@ public class PaintingFormController
 		{
 			model.addAttribute("painting", new Painting());
 		}
+		model.addAttribute("edit", edit);
 		return "paintingForm";
 	}
 
 	@Secured("ROLE_ADMIN")
 	@PostMapping(value="paintingForm.html", params = {"edit"})
-	protected String processForm(Model model, @ModelAttribute("painting") @Valid Painting painting, BindingResult result)
+	protected String processForm(Model model, @ModelAttribute("painting") @Valid Painting painting,
+								 MultipartFile multipartFile, BindingResult result)
 	{
 		System.out.println(result.getAllErrors());
 		if (result.hasErrors())
 			return "paintingForm";
 		//if (painting.getId() != 0)
 			paintingsRepository.save(painting);
+		try {
+			fileService.saveFile(multipartFile, painting.getPaintingId());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("painting", painting);
 		return "successPaintingForm";
 	}

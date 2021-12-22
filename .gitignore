@@ -67,3 +67,11 @@ build/
 /src/main/database/database.mv.db
 /src/main/database/database.trace.db
 /src/test/java/com/example/demo/DemoApplicationTests.java
+/src/main/resources/static/images/background — kopia.jpg
+/src/main/resources/static/images/background.jpg
+/src/main/resources/static/images/paintings/max/1/image.jpg
+/src/main/resources/static/images/paintings/max/1/image.png
+/src/main/resources/static/images/paintings/med/1/image.jpg
+/src/main/resources/static/images/paintings/med/1/image.png
+/src/main/resources/static/images/paintings/min/1/image.jpg
+/src/main/resources/static/images/paintings/min/1/image.png

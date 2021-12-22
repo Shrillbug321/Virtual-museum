@@ -9,7 +9,7 @@
 	<link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
-	<div th:fragment="header(item)">
+	<div class="container content" th:fragment="header(item)">
 		<a th:href="index.html"> Wirtualne muzeum </a>
 		<ul id="menu">
 			<li th:classappend="${name == [[item]] ? 'activeMenuItem' : 'menuItem'}" name="paintings" sec:authorize="hasAnyRole('USER', 'ADMIN')"> <a href="paintings.html">Obrazy</a> </li>
@@ -28,7 +28,7 @@
 		</ul>
 		<div style="clear:both"></div>
 	</div>
-	<div th:fragment="footer">
+	<div class="container content" th:fragment="footer">
 		<p> Wirtualne muzeum &copy; Sebastian Dreszer 2021 </p>
 		<span th:each="role: ${#authentication.getAuthorities()}">
        	<span th:text="${role}"/>

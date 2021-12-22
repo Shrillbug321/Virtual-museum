@@ -82,7 +82,7 @@ public class RepositoriesConfiguration{
         Genre b = genresRepository.getById(2);
         //a.add(b);
         Painting painting1 = new Painting();
-        painting1.setId(1);
+        painting1.setPaintingId(1);
         painting1.setName("Słoneczniki");
         painting1.setAuthor("Van Gogh");
         painting1.setAddDate(LocalDate.of(2021, 10, 20));

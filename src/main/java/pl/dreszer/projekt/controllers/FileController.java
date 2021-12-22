@@ -20,12 +20,12 @@ public class FileController {
         return "uploadFile";
     }
     @PostMapping("uploadFile.html")
-    public String processForm(@Param("multipartFile") MultipartFile multipartFile)
+    public String processForm(MultipartFile multipartFile, int paintingId)
     {
         if (!multipartFile.isEmpty())
         {
             try {
-                fileService.saveFile(multipartFile);
+                fileService.saveFile(multipartFile, paintingId);
             } catch (IOException e) {
                 e.printStackTrace();
             }

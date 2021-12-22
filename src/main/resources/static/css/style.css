@@ -3,15 +3,24 @@ a
 	text-decoration: none;
 }
 
-#menu
+body
 {
-	content: none;
+	//background-image: url("../images/background.jpg");
+	background-size: cover;
+}
+
+.content
+{
+	background-color: rgba(255,255,255,0.9);
+	padding: 15px 35px;
 }
 
 #menu
 {
+	content: none;
 	list-style: none;
 }
+
 #menu li
 {
 	float:left;
@@ -25,23 +34,12 @@ a
 	/*clear:both;*/
 }
 
-table
-{
-	//float: left;
-}
-
 td
 {
 	border-collapse: collapse;
 	border: 2px solid black;
 	padding: 5px;
 }
-
-.menuItem
-{
-
-}
-
 
 .activeMenuItem
 {
