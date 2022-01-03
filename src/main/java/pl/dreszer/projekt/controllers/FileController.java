@@ -1,3 +1,4 @@
+/*
 package pl.dreszer.projekt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,6 @@ public class FileController {
     @Autowired
     private FileServiceImpl fileService;
 
-    @RequestMapping("uploadFile.html")
-    public String file()
-    {
-        return "uploadFile";
-    }
     @PostMapping("uploadFile.html")
     public String processForm(MultipartFile multipartFile, int paintingId)
     {
@@ -29,11 +25,10 @@ public class FileController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return "index";
         }
         else
-        {
-
-        }
-        return "index";
+            return "errors/notChooseFile";
     }
 }
+*/

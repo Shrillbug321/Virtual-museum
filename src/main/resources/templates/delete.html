@@ -2,12 +2,13 @@
 <html lang="pl"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{template.html}">
-<head th:replace="~{fragments :: head}">
+<head th:replace="~{fragments :: head('Usuwanie')}">
 </head>
 <body>
-<div layout:fragment="header" th:replace="~{fragments :: header}"></div>
+<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-    <p> Usunięto obraz o id <span th:text="${imageId}"> </span> </p>
+    <p> Usunięto obraz <span th:text="${name}"> </span> </p>
+    <a class="btn btn-light" th:href="@{paintings.html}"> Przejdź do listy </a>
 </div>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package pl.dreszer.projekt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Stream;
-
+@PropertySource("classpath:config.properties")
 @Controller
 public class PaintingFormController
 {
@@ -32,10 +34,8 @@ public class PaintingFormController
 	private PaintingsRepository paintingsRepository;
 	@Autowired
 	private FileServiceImpl fileService;
-	//@Autowired
-	private PaintingsSpecifications paintingsSpecifications;
-	private Specification<Painting> specification;
-	private Stream<Painting> paintingStream;
+	@Value("${files.location.paintings.med}")
+	String filepath;
 	@InitBinder("painting")
 	public void initBinder(WebDataBinder binder)
 	{
@@ -56,25 +56,28 @@ public class PaintingFormController
 			model.addAttribute("painting", new Painting());
 		}
 		model.addAttribute("edit", edit);
+		model.addAttribute("filepath", filepath+"/"+paintingId+"/image.jpg");
 		return "paintingForm";
 	}
 
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@PostMapping(value="paintingForm.html", params = {"edit"})
-	protected String processForm(Model model, @ModelAttribute("painting") @Valid Painting painting,
-								 MultipartFile multipartFile, BindingResult result)
+	protected String processForm(Model model, @Valid @ModelAttribute("painting") Painting painting,
+								 BindingResult result, @RequestParam(value = "edit") boolean edit, MultipartFile multipartFile)
 	{
-		System.out.println(result.getAllErrors());
 		if (result.hasErrors())
 			return "paintingForm";
-		//if (painting.getId() != 0)
-			paintingsRepository.save(painting);
-		try {
-			fileService.saveFile(multipartFile, painting.getPaintingId());
-		} catch (IOException e) {
-			e.printStackTrace();
+		paintingsRepository.save(painting);
+		if (!multipartFile.isEmpty())
+		{
+			try {
+				fileService.saveFile(multipartFile, painting.getPaintingId());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		model.addAttribute("painting", painting);
+		model.addAttribute("edit", edit);
 		return "successPaintingForm";
 	}
 	@PostMapping(value="processSearch.html")

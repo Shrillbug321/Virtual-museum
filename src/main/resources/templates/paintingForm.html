@@ -6,7 +6,7 @@
 <body>
 	<div layout:fragment="header" th:replace="~{fragments :: header('painting')}"></div>
 	<div layout:fragment="content">
-		<form th:action="paintingForm.html" th:method="POST" th:object="${painting}"> <br>
+		<form th:action="paintingForm.html" th:method="POST" th:object="${painting}" enctype="multipart/form-data"> <br>
 			<input type="text" th:field="*{paintingId}" hidden/>
 
 			<label> Nazwa
@@ -45,10 +45,11 @@
 				<input type="text" th:field="*{name}"/>
 			</label> <br>-->
 
-			<div>
-				<label th:each="genre: ${genres}"> <input type="checkbox" th:text="${genre.name}"> </label>
+			<div th:each="genre: ${genres}">
+				 <input type="checkbox" th:field="*{genres}" th:value="${genre.id}" th:id="${genre}"> <label th:text="${genre.name}"> </label>
 			</div> <br>
-			<input type="file" name="multipartFile" accept=".gif, .png, .jpg, .jpeg, .bmp">
+			<img th:src="${filepath}">
+			<input type="file" th:name="multipartFile" accept=".gif, .png, .jpg, .jpeg, .bmp">
 			<input type="submit" value="Wyślij">
 			<input th:name="edit" th:value="${edit}" hidden>
 		</form>

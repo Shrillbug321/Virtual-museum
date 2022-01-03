@@ -16,8 +16,8 @@
 			<tr> <td> Wartość </td> <td th:text="*{value}"> </td> </tr>
 			<tr> <td> Wystawiony </td> <td th:if="${painting.isExhibited} == false"> nie</td> <td th:if="${painting.isExhibited} == true"> tak</td> </tr>
 			<tr> <td> Technika </td> <td th:text="*{technique.name}"> </td> </tr>
-<!--			<tr> <td> Rodzaj </td> <td th:text="*{genre.name}"> </td> </tr>-->
-			<tr> <td> Obraz </td> <td> <img th:src="${path}"> </td> </tr>
+			<tr> <td> Rodzaj </td> <td> <div th:each="genre : *{genres}"> <span th:text="${genre.name}"></span> </div> </td> </tr>
+			<tr> <td> Obraz </td> <td> <img th:src="${filepath}"> </td> </tr>
 			<tr> <td> </td> <td> <a th:href="@{paintingForm.html(edit=true,paintingId=${painting.paintingId})}"> Edytuj </a> </td> </tr>
 			<tr> <td> </td> <td> <a th:href="@{delete.html(paintingId=${painting.paintingId})}"> Usuń </a> </td> </tr>
 		</table>

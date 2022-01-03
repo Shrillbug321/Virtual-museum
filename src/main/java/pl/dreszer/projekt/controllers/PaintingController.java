@@ -9,19 +9,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.dreszer.projekt.configurations.Profiles;
 import pl.dreszer.projekt.exceptions.PaintingNotFoundException;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
 @Profile(Profiles.PLAIN_CONTROLLERS)
-//myDB.list.stream().filter(x->x.get()==id).?.get();
 @PropertySource("classpath:config.properties")
 @Controller
 public class PaintingController {
     @Autowired
     PaintingsRepository paintingsRepository;
 
-    @Value("${files.location.paintings.max}")
+    @Value("${files.location.paintings}")
     String path;
     @EntityGraph(value="pgraph", type= EntityGraph.EntityGraphType.FETCH)
     @RequestMapping("paintingDetails.html")
@@ -33,7 +33,7 @@ public class PaintingController {
             throw new PaintingNotFoundException();
         }
         model.addAttribute("painting", painting);
-        model.addAttribute("path", path+"/"+paintingId+"/image.png");
+        model.addAttribute("filepath", path+"/max/"+paintingId+"/image.jpg");
         return "paintingDetails";
     }
 
@@ -42,8 +42,16 @@ public class PaintingController {
     public String paintings(Model model)
     {
         model.addAttribute("paintings", paintingsRepository.findAll());
+        model.addAttribute("path", path+"/min");
         return "paintings";
     }
 
-
+    @GetMapping(path="delete.html", params={"paintingId"})
+    public String delete(Model model, @RequestParam int paintingId)
+    {
+        Painting painting = paintingsRepository.getById(paintingId);
+        model.addAttribute("name", painting.getName());
+        paintingsRepository.delete(painting);
+        return "delete";
+    }
 }
