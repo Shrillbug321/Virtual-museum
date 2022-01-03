@@ -3,7 +3,6 @@ package pl.dreszer.projekt.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,9 @@ import pl.dreszer.projekt.controllers.filters.PaintingsSpecifications;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
+import pl.dreszer.projekt.repositories.GenresRepository;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
+import pl.dreszer.projekt.repositories.TechniquesRepository;
 import pl.dreszer.projekt.services.FileServiceImpl;
 import pl.dreszer.projekt.validators.PaintingValidator;
 
@@ -32,6 +33,10 @@ public class PaintingFormController
 {
 	@Autowired
 	private PaintingsRepository paintingsRepository;
+	@Autowired
+	private TechniquesRepository techniquesRepository;
+	@Autowired
+	private GenresRepository genresRepository;
 	@Autowired
 	private FileServiceImpl fileService;
 	@Value("${files.location.paintings.med}")
@@ -60,7 +65,7 @@ public class PaintingFormController
 		return "paintingForm";
 	}
 
-	//@Secured("ROLE_ADMIN")
+	@Secured("ROLE_ADMIN")
 	@PostMapping(value="paintingForm.html", params = {"edit"})
 	protected String processForm(Model model, @Valid @ModelAttribute("painting") Painting painting,
 								 BindingResult result, @RequestParam(value = "edit") boolean edit, MultipartFile multipartFile)
@@ -90,7 +95,6 @@ public class PaintingFormController
 		switch (paintingFilter.getWhere())
 		{
 			case "name":
-				//foundPaintings = paintingsRepository.findAll(PaintingsSpecifications.findByPhrase(paintingFilter.getPhrase()));
 				foundPaintings = paintingsRepository.findByNameContainingIgnoreCase(paintingFilter.getPhrase());
 				break;
 			case "technique":
@@ -116,7 +120,6 @@ public class PaintingFormController
 					paintingStream.forEach(painting -> finalFoundPaintings.add(painting));
 					foundPaintings = finalFoundPaintings;
 				}
-				//foundPaintings = paintingsRepository.findAll(PaintingsSpecifications.findByPaintedDate(minDate, maxDate));
 				break;
 		}
 
@@ -134,20 +137,13 @@ public class PaintingFormController
 	@ModelAttribute("techniques")
 	public List<Technique> loadTechniquesList()
 	{
-		List<Technique> techniquesList = new ArrayList<>();
-		techniquesList.add(new Technique(1,"Olej na płótnie"));
-		techniquesList.add(new Technique(2,"Olej na miedzi"));
-		return techniquesList;
+		return techniquesRepository.findAll();
 	}
 
 	@ModelAttribute("genres")
 	public List<Genre> loadGenresSet()
 	{
-		List<Genre> techniquesList = new ArrayList<>();
-		techniquesList.add(new Genre(1,"Sielanka"));
-		techniquesList.add(new Genre(2,"Martwa natura"));
-		techniquesList.add(new Genre(3,"Rysunek"));
-		return techniquesList;
+		return genresRepository.findAll();
 	}
 
 }

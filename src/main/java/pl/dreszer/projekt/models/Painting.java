@@ -3,9 +3,7 @@ package pl.dreszer.projekt.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import pl.dreszer.projekt.configurations.Profiles;
@@ -20,7 +18,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Setter
@@ -28,13 +26,13 @@ import java.util.stream.Collectors;
 @Profile(Profiles.PLAIN_CONTROLLERS)
 @Entity
 @NamedEntityGraph
-        (
-                name="pgraph",
-                attributeNodes = {
-                        @NamedAttributeNode("technique"),
-                        @NamedAttributeNode("genres")
-                }
-        )
+(
+        name="pgraph",
+        attributeNodes = {
+                @NamedAttributeNode("technique"),
+                @NamedAttributeNode("genres")
+        }
+)
 @NamedQuery(name="Painting.findByTechnique", query="select p, t from Painting p, Technique t where t.name = ?1 or p.name=?1")
 @Table(name="paintings")
 public class Painting implements Serializable
@@ -69,6 +67,7 @@ public class Painting implements Serializable
 
     @Column(nullable=false)
     private boolean exhibited;
+
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="technique_id", nullable = false)
     @ToString.Exclude
@@ -80,12 +79,14 @@ public class Painting implements Serializable
             joinColumns = @JoinColumn(name="painting_id"),
             inverseJoinColumns = @JoinColumn(name="genre_id"))
     private Set<Genre> genres;
+
     @Transient
     @Autowired
     private TechniquesRepository techniquesRepository;
     @Transient
     @Autowired
     private GenresRepository genresRepository;
+
     public Painting()
     {
         this.technique = new Technique();

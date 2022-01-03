@@ -1,10 +1,9 @@
-package pl.dreszer.projekt.repositories;
+package pl.dreszer.projekt.configurations;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.dreszer.projekt.models.Genre;
@@ -12,6 +11,7 @@ import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
 import pl.dreszer.projekt.models.authorization.Role;
 import pl.dreszer.projekt.models.authorization.User;
+import pl.dreszer.projekt.repositories.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -35,9 +35,12 @@ public class RepositoriesConfiguration{
     {
         return () ->
         {
-            genresRepository.save(new Genre(1,"Sielanka"));
-            genresRepository.save(new Genre(2,"Martwa natura"));
-            genresRepository.save(new Genre(3,"Rysunek"));
+            if (genresRepository.findAll().isEmpty())
+            {
+                genresRepository.save(new Genre(1,"Sielanka"));
+                genresRepository.save(new Genre(2,"Martwa natura"));
+                genresRepository.save(new Genre(3,"Rysunek"));
+            }
             if(paintingsRepository.findAll().isEmpty())
             {
                 Technique technique = new Technique(1,"Olej na płótnie");
@@ -71,16 +74,14 @@ public class RepositoriesConfiguration{
                 usersRepository.save(admin);
                 usersRepository.save(superuser);
             }
-
         };
     }
 
     @Bean(name="PaintingsBean")
     public Painting createPainting()
     {
-        Set<Genre> a = new HashSet<Genre>();
-        Genre b = genresRepository.getById(2);
-        //a.add(b);
+        Set<Genre> a = new HashSet<>();
+        a.add(genresRepository.getById(2));
         Painting painting1 = new Painting();
         painting1.setPaintingId(1);
         painting1.setName("Słoneczniki");
@@ -90,10 +91,8 @@ public class RepositoriesConfiguration{
         painting1.setValue(1000000.99f);
         painting1.setExhibited(false);
         painting1.setTechnique(techniquesRepository.getById(1));
-        //painting1.setGenres( a);
+        painting1.setGenres(a);
         return painting1;
-        //painting1.setGenres(a);
-        //paintingsRepository.save(painting1);
     }
 
 }

@@ -23,7 +23,6 @@ public class FileServiceImpl {
         {
             String actualImageDir = imagesDir+"/paintings/"+i.name().toLowerCase()+"/"+paintingId;
             new File(actualImageDir).mkdirs();
-            String fileNameAndExtension[] =  multipartFile.getOriginalFilename().split("\\.");
             Path path = Path.of(actualImageDir, "image."+"jpg");
             BufferedImage scaled = scaleImage(multipartFile.getBytes(), dimensions[i.getId()][0],dimensions[i.getId()][1]);
             ImageIO.write(scaled, "jpg", path.toFile());

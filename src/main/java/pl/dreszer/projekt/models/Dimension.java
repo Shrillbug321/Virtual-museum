@@ -16,5 +16,4 @@ public class Dimension {
 		this.width = width;
 		this.height = height;
 	}
-
 }
