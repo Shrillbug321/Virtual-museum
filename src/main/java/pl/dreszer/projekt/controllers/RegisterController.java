@@ -6,27 +6,29 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pl.dreszer.projekt.models.authorization.User;
-import pl.dreszer.projekt.repositories.UsersRepository;
+import pl.dreszer.projekt.services.MailService;
+import pl.dreszer.projekt.services.RegisterFormService;
 
 @Controller
-public class RegisterController {
-
+@RequestMapping("/account/registration")
+public class RegisterController
+{
 	@Autowired
-	UsersRepository usersRepository;
-	@GetMapping("/registerForm.html")
-	public String showRegisterForm(Model model)
+	RegisterFormService registerFormService;
+	@GetMapping("/form.html")
+	public String showRegistrationForm(Model model)
 	{
-		model.addAttribute("user", new User());
-		return "authorization/registerForm";
+		registerFormService.showRegistrationForm(model);
+		return "account/registration/form";
 	}
 
-	@PostMapping("/registerForm.html") String processForm(Model model, User user, BindingResult result)
+	@PostMapping("/form.html")
+	String processForm(User user, BindingResult result)
 	{
-		if (result.hasErrors())
-			return "authorization/failedRegistered";
-		user.encodePassword(user.getPassword());
-		usersRepository.save(user);
-		return "authorization/successRegistered";
+		if (registerFormService.processForm(user, result).equals("failed"))
+			return "account/registration/failed";
+		return "account/registration/success";
 	}
 }

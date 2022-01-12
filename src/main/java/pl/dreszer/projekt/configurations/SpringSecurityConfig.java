@@ -54,7 +54,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and().csrf().ignoringAntMatchers("/h2-console/**")
 			.and().headers().frameOptions().sameOrigin();
 		httpSec.formLogin().loginPage("/login").permitAll();
-		httpSec.logout().permitAll();
+		httpSec.logout().logoutUrl("/account/authorization/logout").permitAll();
 		httpSec.exceptionHandling().accessDeniedPage("/403");
 	}
 }

@@ -6,10 +6,11 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('painting')}"></div>
 <div layout:fragment="content">
-	<form th:method="POST" th:action="@{/registerForm.html}" th:object="${user}"> <br>
+	<form th:method="POST" th:action="@{/account/registration/form.html}" th:object="${user}"> <br>
 		<input th:field="*{username}">
+		<input type="email" th:field="*{email}">
 		<input type="password" th:field="*{password}">
-		<input type="submit" value="Zarejestruj się">
+		<input type="submit" th:value="#{registration.form.register}">
 	</form>
 </div>
 </body>

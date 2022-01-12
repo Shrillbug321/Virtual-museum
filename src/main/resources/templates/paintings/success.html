@@ -7,10 +7,10 @@
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
     <div th:switch="${edit}">
-        <p th:case="true"> Edytowano pomyślnie </p>
-        <p th:case="false"> Dodano pomyślnie </p>
+        <p th:case="true" th:text="#{paintings.success.edit}"> </p>
+        <p th:case="false" th:text="#{paintings.success.add}"> </p>
     </div>
-    <a class="btn btn-light"  th:href="@{paintingDetails.html(paintingId=${painting.paintingId})}"> Przejdź do obrazu</a>
+    <a class="btn btn-light" th:href="@{details.html(paintingId=${painting.paintingId})}" th:text="#{general.go_painting}"> </a>
 </div>
 </body>
 </html>

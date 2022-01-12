@@ -2,6 +2,7 @@ package pl.dreszer.projekt.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,6 @@ import pl.dreszer.projekt.models.authorization.Role;
 import pl.dreszer.projekt.models.authorization.User;
 import pl.dreszer.projekt.repositories.UsersRepository;
 
-import javax.persistence.NoResultException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,10 +27,13 @@ public class UserService implements IUserService
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = usersRepository.findByUsername(username);
-		System.out.println(username);
 		if (user == null)
 		{
 			throw new UsernameNotFoundException(username);
+		}
+		if (!user.isEnabled())
+		{
+			user = usersRepository.findByUsername("dummy");
 		}
 		return convertToUserDetails(user);
 	}

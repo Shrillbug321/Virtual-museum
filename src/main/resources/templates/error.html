@@ -6,31 +6,31 @@
     <table>
         <!--frytki, kurczak, schabowy, pizza, kluski -->
         <tr>
-            <td> Data </td>
+            <td th:text="#{error_page.data}"> </td>
             <td th:text="${timestamp}"> </td>
         </tr>
         <tr>
-            <td> Scieżka </td>
+            <td th:text="#{error_page.path}"> </td>
             <td th:text="${path}"> </td>
         </tr>
         <tr>
-            <td> Błąd </td>
+            <td th:text="#{error_page.error}"> </td>
             <td th:text="${error}"> </td>
         </tr>
         <tr>
-            <td> Kod błędu </td>
+            <td th:text="#{error_page.error_code}"> </td>
             <td th:text="${status}"> </td>
         </tr>
         <tr>
-            <td> Wiadomość </td>
+            <td th:text="#{error_page.message}"> </td>
             <td th:text="${message}"> </td>
         </tr>
         <tr>
-            <td> Wyjątek </td>
+            <td th:text="#{error_page.exception}"> </td>
             <td th:text="${exception}"> </td>
         </tr>
         <tr>
-            <td> Stos wywołań </td>
+            <td th:text="#{error_page.trace}"> </td>
             <pre> <td th:text="${trace}"> </td> </pre>
         </tr>
     </table>

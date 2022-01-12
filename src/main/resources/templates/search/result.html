@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Obrazy')}">
+</head>
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
+<div layout:fragment="content">
+    <div th:if="${paintings.size} == 0">
+        <p th:text="#{search.result.not_found}"> </p>
+    </div>
+    <div th:if="${paintings.size} > 0">
+        <table th:each="painting : ${paintings}">
+            <tr> <td> </td> <td> <a th:href="@{/paintings/details.html(paintingId=${painting.paintingId})}"> <span th:text="${painting.author +' '+ painting.name}"></span> </a> </td> </tr>
+            <tr> <td> </td> <td> <a th:href="@{/paintings/form.html(edit=true,paintingId=${painting.paintingId})}" th:text="#{general.edit}"> </a> </td> </tr>
+            <tr> <td> </td> <td> <a th:href="@{/paintings/delete.html(paintingId=${painting.paintingId})}" th:text="#{general.delete}"> </a> </td> </tr>
+        </table>
+        <a th:href="@{paintingForm.html(edit=false)}" th:text="#{general.add}"> </a>
+    </div>
+</div>
+</body>
+</html>

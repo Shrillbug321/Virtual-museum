@@ -7,8 +7,6 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-    <div>
-        403 brak dostępu
-    </div>
+    <div th:text="#{errors.c403}"> </div>
 </div>
 </body>

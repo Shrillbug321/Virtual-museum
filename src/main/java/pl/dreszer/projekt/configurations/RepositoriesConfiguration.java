@@ -61,14 +61,21 @@ public class RepositoriesConfiguration{
                 User user = new User("user", true);
                 user.setPassword(passwordEncoder.encode("123"));
                 user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
+                user.setConfirmed(true);
 
                 User admin = new User("admin", true);
                 admin.setPassword((passwordEncoder.encode("admin")));
                 admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
-
+                admin.setConfirmed(true);
+/*
+DROP TABLE USERS_ROLES ;
+drop table users ;
+drop table roles
+*/
                 User superuser = new User("superuser", true);
                 superuser.setPassword((passwordEncoder.encode("123")));
                 superuser.setRoles(new HashSet<>(Arrays.asList(roleUser, roleAdmin)));
+                superuser.setConfirmed(true);
 
                 usersRepository.save(user);
                 usersRepository.save(admin);

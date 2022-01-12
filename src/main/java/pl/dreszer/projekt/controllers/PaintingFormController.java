@@ -1,149 +1,60 @@
 package pl.dreszer.projekt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.dreszer.projekt.controllers.filters.PaintingFilter;
-import pl.dreszer.projekt.controllers.filters.PaintingsSpecifications;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
-import pl.dreszer.projekt.repositories.GenresRepository;
-import pl.dreszer.projekt.repositories.PaintingsRepository;
-import pl.dreszer.projekt.repositories.TechniquesRepository;
-import pl.dreszer.projekt.services.FileServiceImpl;
-import pl.dreszer.projekt.validators.PaintingValidator;
+import pl.dreszer.projekt.services.PaintingFormService;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Stream;
 @PropertySource("classpath:config.properties")
+@RequestMapping("/paintings")
 @Controller
 public class PaintingFormController
 {
 	@Autowired
-	private PaintingsRepository paintingsRepository;
-	@Autowired
-	private TechniquesRepository techniquesRepository;
-	@Autowired
-	private GenresRepository genresRepository;
-	@Autowired
-	private FileServiceImpl fileService;
-	@Value("${files.location.paintings.med}")
-	String filepath;
-	@InitBinder("painting")
-	public void initBinder(WebDataBinder binder)
-	{
-		binder.addValidators(new PaintingValidator());
-	}
+	private PaintingFormService paintingFormService;
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value="paintingForm.html", params = {"edit"})
+	@RequestMapping(value="form.html", params = {"edit"})
 	protected String showForm(@RequestParam(value="paintingId", required = false, defaultValue="-1") int paintingId,
 							  Model model, @RequestParam(value = "edit") boolean edit)
 	{
-		if (edit && paintingId > 0)
-		{
-			model.addAttribute("painting", paintingsRepository.getById(paintingId));
-		}
-		else
-		{
-			model.addAttribute("painting", new Painting());
-		}
-		model.addAttribute("edit", edit);
-		model.addAttribute("filepath", filepath+"/"+paintingId+"/image.jpg");
-		return "paintingForm";
+		paintingFormService.showForm(paintingId, model, edit);
+		return "paintings/form";
 	}
 
 	@Secured("ROLE_ADMIN")
-	@PostMapping(value="paintingForm.html", params = {"edit"})
+	@PostMapping(value="form.html", params = {"edit"})
 	protected String processForm(Model model, @Valid @ModelAttribute("painting") Painting painting,
 								 BindingResult result, @RequestParam(value = "edit") boolean edit, MultipartFile multipartFile)
 	{
-		if (result.hasErrors())
-			return "paintingForm";
-		paintingsRepository.save(painting);
-		if (!multipartFile.isEmpty())
+		String strResult = paintingFormService.processForm(model, painting, result, edit, multipartFile);
+		switch(strResult)
 		{
-			try {
-				fileService.saveFile(multipartFile, painting.getPaintingId());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			case "success" : return "paintings/success";
+			default: return "paintings/form";
 		}
-		model.addAttribute("painting", painting);
-		model.addAttribute("edit", edit);
-		return "successPaintingForm";
-	}
-	@PostMapping(value="processSearch.html")
-	@Transactional(readOnly = true)
-	public String searchForm(PaintingFilter paintingFilter, Model model)
-	{
-		System.out.println(paintingFilter.getPhrase());
-		List<Painting> foundPaintings = null;
-		LocalDate minDate, maxDate;
-		switch (paintingFilter.getWhere())
-		{
-			case "name":
-				foundPaintings = paintingsRepository.findByNameContainingIgnoreCase(paintingFilter.getPhrase());
-				break;
-			case "technique":
-				foundPaintings = paintingsRepository.findByTechnique(paintingFilter.getPhrase());
-				break;
-			case "author":
-				foundPaintings = paintingsRepository.findByAuthor(paintingFilter.getPhrase());
-				break;
-			case "paintingValue":
-				foundPaintings = paintingsRepository.findByValue(paintingFilter);
-				break;
-			case "paintedDate":
-				minDate = LocalDate.parse(paintingFilter.getMinDate());
-				maxDate = LocalDate.parse(paintingFilter.getMaxDate());
-				foundPaintings = paintingsRepository.findAll(PaintingsSpecifications.findByPaintedDate(minDate, maxDate));
-				break;
-			case "addDate":
-				minDate = LocalDate.parse(paintingFilter.getMinDate());
-				maxDate = LocalDate.parse(paintingFilter.getMaxDate());
-				try (Stream<Painting> paintingStream = paintingsRepository.findByAddDate(minDate,maxDate))
-				{
-					List<Painting> finalFoundPaintings = new ArrayList<>();
-					paintingStream.forEach(painting -> finalFoundPaintings.add(painting));
-					foundPaintings = finalFoundPaintings;
-				}
-				break;
-		}
-
-		model.addAttribute("paintings", foundPaintings);
-		return "searchResult";
-	}
-
-	@RequestMapping(value="searchForm.html")
-	protected String showSearchForm(PaintingFilter paintingFilter, Model model)
-	{
-		model.addAttribute("filter", paintingFilter);
-		return "searchForm";
 	}
 
 	@ModelAttribute("techniques")
 	public List<Technique> loadTechniquesList()
 	{
-		return techniquesRepository.findAll();
+		return paintingFormService.loadTechniquesList();
 	}
 
 	@ModelAttribute("genres")
 	public List<Genre> loadGenresSet()
 	{
-		return genresRepository.findAll();
+		return paintingFormService.loadGenresSet();
 	}
-
 }

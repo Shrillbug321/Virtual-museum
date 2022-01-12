@@ -7,7 +7,7 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-	<p> Nie znaleziono obrazu</p>
+	<p th:text="#{errors.painting_not_found}"> </p>
 </div>
 <div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>
 </body>

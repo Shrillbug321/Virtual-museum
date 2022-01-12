@@ -6,7 +6,7 @@
 <body>
 <div layout:fragment="content">
   <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Wyloguj się">
+    <input type="submit" th:value="#{logout.logout}">
   </form>
 </div>
 </body>

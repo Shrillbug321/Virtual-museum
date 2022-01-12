@@ -1,7 +1,6 @@
 package pl.dreszer.projekt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -11,47 +10,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.dreszer.projekt.configurations.Profiles;
-import pl.dreszer.projekt.exceptions.PaintingNotFoundException;
-import pl.dreszer.projekt.models.Painting;
-import pl.dreszer.projekt.repositories.PaintingsRepository;
+import pl.dreszer.projekt.services.PaintingsService;
+
 @Profile(Profiles.PLAIN_CONTROLLERS)
 @PropertySource("classpath:config.properties")
+@RequestMapping("/paintings")
 @Controller
 public class PaintingController {
     @Autowired
-    PaintingsRepository paintingsRepository;
+    PaintingsService paintingsService;
 
-    @Value("${files.location.paintings}")
-    String path;
-    @EntityGraph(value="pgraph", type= EntityGraph.EntityGraphType.FETCH)
-    @RequestMapping("paintingDetails.html")
+    @RequestMapping("/details.html")
     public String paintingDetails(Model model, int paintingId)
     {
-        Painting painting = paintingsRepository.getById(paintingId);
-        if (!paintingsRepository.existsById(paintingId))
-        {
-            throw new PaintingNotFoundException();
-        }
-        model.addAttribute("painting", painting);
-        model.addAttribute("filepath", path+"/max/"+paintingId+"/image.jpg");
-        return "paintingDetails";
+        paintingsService.paintingDetails(model, paintingId);
+        return "paintings/details";
     }
 
     @EntityGraph(value="pgraph", type= EntityGraph.EntityGraphType.FETCH)
-    @RequestMapping("paintings.html")
+    @RequestMapping("list.html")
     public String paintings(Model model)
     {
-        model.addAttribute("paintings", paintingsRepository.findAll());
-        model.addAttribute("path", path+"/min");
-        return "paintings";
+        paintingsService.paintings(model);
+        return "paintings/list";
     }
 
     @GetMapping(path="delete.html", params={"paintingId"})
     public String delete(Model model, @RequestParam int paintingId)
     {
-        Painting painting = paintingsRepository.getById(paintingId);
-        model.addAttribute("name", painting.getName());
-        paintingsRepository.delete(painting);
-        return "delete";
+        paintingsService.delete(model, paintingId);
+        return "paintings/delete";
     }
 }

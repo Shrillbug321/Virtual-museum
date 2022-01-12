@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Rejestracja')}">
+</head>
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
+<div layout:fragment="content">
+	<p th:text="#{registration.success.success}"> </p>
+	<a class="btn btn-light" th:href="@{/paintings/list.html}" th:text="#{general.go_to_list}"> </a>
+	<a class="btn btn-light" th:href="@{account.html}" th:text="#{registration.success.go_to_account}"> </a>
+</div>
+</body>
+</html>

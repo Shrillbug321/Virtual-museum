@@ -7,8 +7,8 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-    <p> Usunięto obraz <span th:text="${name}"> </span> </p>
-    <a class="btn btn-light" th:href="@{paintings.html}"> Przejdź do listy </a>
+    <p th:text="#{paintings.delete.delete}"> <span th:text="${name}"> </span> </p>
+    <a class="btn btn-light" th:href="@{list.html}" th:text="#{general.go_to_list}"> </a>
 </div>
 </body>
 </html>

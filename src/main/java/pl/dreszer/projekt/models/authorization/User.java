@@ -25,7 +25,9 @@ public class User {
 	private String password;
 	@Transient
 	private String passwordConfirm;
-	private boolean enabled = false;
+	private String email;
+	private boolean enabled = true;
+	private boolean confirmed = false;
 
 	@ManyToMany
 	@JoinTable(name="users_roles",
@@ -41,7 +43,6 @@ public class User {
 		this.username = username;
 		this.enabled = enabled;
 	}
-
 
 	public User(String username, String password, boolean enabled) {
 		this.username = username;
