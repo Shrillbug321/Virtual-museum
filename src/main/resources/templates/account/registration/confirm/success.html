@@ -6,7 +6,8 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('painting')}"></div>
 <div layout:fragment="content">
-	<p th:text="#{login.account_not_confirmed}"></p>
+	<p th:text="#{registration.confirm.success}"></p>
+	<a class="btn btn-light" th:href="@{/index.html}" th:text="#{general.go_to_index}"> </a>
 </div>
 </body>
 </html>

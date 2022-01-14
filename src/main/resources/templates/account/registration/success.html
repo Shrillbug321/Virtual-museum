@@ -8,8 +8,9 @@
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
 	<p th:text="#{registration.success.success}"> </p>
+	<p th:text="#{registration.success.check_email}"> </p><!--
 	<a class="btn btn-light" th:href="@{/paintings/list.html}" th:text="#{general.go_to_list}"> </a>
-	<a class="btn btn-light" th:href="@{account.html}" th:text="#{registration.success.go_to_account}"> </a>
+	<a class="btn btn-light" th:href="@{account.html}" th:text="#{registration.success.go_to_account}"> </a>-->
 </div>
 </body>
 </html>

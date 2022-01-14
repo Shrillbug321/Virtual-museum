@@ -5,20 +5,14 @@
 <head th:replace="~{fragments :: head('Logowanie')}">
 <body>
 <div layout:fragment="content">
-	<div th:if="${param.error}" th:text="#{login.error}">
-
-	</div>
-	<div sec:authorize="isAuthenticated()">
-		<div th:text="${#authentication.principal.Username}">
-
-		</div>
-	</div>
+	<div th:if="${param.error}"	th:text="#{login.error}"> </div>
 	<div th:if="${param.logout}" th:text="#{login.logout}">	</div>
 	<form th:action="@{/login}" method="post">
 		<input type="text" name="username" th:placeholder="#{login.username}">
 		<input type="password" name="password" th:placeholder="#{login.password}">
 		<input type="submit" th:value="#{login.submit}">
 	</form>
+	<a class="btn btn-light" th:href="@{/account/registration/form.html}" th:text="#{menu.register}"></a>
 </div>
 </body>
 </html>

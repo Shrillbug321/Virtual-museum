@@ -1,19 +1,23 @@
 package pl.dreszer.projekt.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MenuController {
 
 	@RequestMapping("index.html")
-	public String home()
+	public ModelAndView home(Model model)
 	{
-		return "index";
+		model.addAttribute("attribute", "redirectWithRedirectPrefix");
+		return new ModelAndView("redirect:/checkUserConfirm");
 	}
 	@RequestMapping("/")
-	public String home2()
+	public ModelAndView home2(Model model)
 	{
-		return "index";
+		model.addAttribute("attribute", "redirectWithRedirectPrefix");
+		return new ModelAndView("redirect:/checkUserConfirm");
 	}
 }

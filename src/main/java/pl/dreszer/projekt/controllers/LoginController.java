@@ -15,8 +15,8 @@ public class LoginController {
 
 	@Autowired
 	UsersRepository usersRepository;
-	@GetMapping("/login")
-	public String login()
+	@GetMapping("/checkUserConfirm")
+	public String checkUserConfirm()
 	{
 		//Authentication authentication = authenticationManager
 		if (isAuthenticated())
@@ -26,7 +26,7 @@ public class LoginController {
 			User user = usersRepository.findByUsername(userDetails.getUsername());
 			if (user.isConfirmed())
 				return "index";
-			return "index";
+			return "account/registration/confirm/accountNotConfirmed";
 		}
 		else
 			return "account/authorization/login";
