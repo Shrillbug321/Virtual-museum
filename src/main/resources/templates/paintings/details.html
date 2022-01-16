@@ -6,6 +6,8 @@
 <body>
 	<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 	<div layout:fragment="content">
+		<a class="btn btn-light" th:href="@{details/createPdf.html(paintingId=${painting.paintingId})}"
+		   th:text="#{pdf.generate}"> </a>
 		<table th:object="${painting}">
 			<tr> <td th:text="#{paintings.details.name}"> </td> <td th:text="*{name}"> </td> </tr>
 			<tr> <td th:text="#{paintings.details.author}">  </td> <td th:text="*{author}"> </td> </tr>
@@ -14,8 +16,10 @@
 			<tr> <td th:text="#{paintings.details.value}">  </td> <td th:text="*{value}"> </td> </tr>
 			<tr> <td th:text="#{paintings.details.exhibited}">  </td> <td th:if="${painting.isExhibited} == false"> nie</td> <td th:if="${painting.isExhibited} == true"> tak</td> </tr>
 			<tr> <td th:text="#{paintings.details.technique}">  </td> <td th:text="*{technique.name}"> </td> </tr>
-<!--			<tr> <td th:text="#{paintings.details.dimensions}">  </td> <td th:text="*{technique.name}"> </td> </tr>-->
+			<tr> <td th:text="#{paintings.details.dimensions}">  </td> <td th:text="*{dimensions}"> </td> </tr>
 			<tr> <td th:text="#{paintings.details.genre}">  </td> <td> <div th:each="genre : *{genres}"> <span th:text="${genre.name}"></span> </div> </td> </tr>
+			<tr> <td th:text="#{paintings.details.museum}">  </td> <td th:text="|*{museum.name}, *{museum.place}|"> </td> </tr>
+			<tr> <td th:text="#{paintings.details.exemplars}">  </td> <td th:text="*{exemplars}"> </td> </tr>
 			<tr> <td th:text="#{paintings.details.image}">  </td> <td> <img th:src="${filepath}"> </td> </tr>
 			<tr> <td> </td> <td> <a th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}" th:text="#{general.edit}"> </a> </td> </tr>
 			<tr> <td> </td> <td> <a th:href="@{delete.html(paintingId=${painting.paintingId})}" th:text="#{general.delete}"> </a> </td> </tr>

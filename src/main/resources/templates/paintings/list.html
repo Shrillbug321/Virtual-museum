@@ -32,7 +32,10 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-    <a th:href="@{form.html(edit=false)}" sec:authorize="hasRole('ADMIN')" th:text="#{general.add}"> </a>
+    <div id="buttons">
+        <a class="btn btn-light" th:href="@{form.html(edit=false)}" sec:authorize="hasRole('ADMIN')" th:text="#{general.add}"> </a>
+        <a class="btn btn-light" th:href="@{list/createPdf.html}" th:text="#{pdf.generate}"> </a>
+    </div>
     <div th:if="${paintings.size} == 0">
         <p th:text="#{paintings.list.empty}"> </p>
     </div>
@@ -41,7 +44,7 @@
             <tr> <td> <img th:src="${path}+'/'+${painting.paintingId}+'/image.jpg'"></td> <td> <a th:href="@{details.html(paintingId=${painting.paintingId})}"> <span th:text="${painting.author +' '+ painting.name}"></span> </a> </td> </tr>
             <tr sec:authorize="hasRole('ADMIN')"> <td> </td> <td> <a th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}" th:text="#{general.edit}"> </a> </td> </tr>
             <tr sec:authorize="hasRole('ADMIN')"> <td> </td> <td>
-                <button class="delete btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal" th:data-id="${painting.paintingId}"
+                <button class="delete btn btn-dark" type="button" data-toggle="modal" data-target="#exampleModal" th:data-id="${painting.paintingId}"
                         th:text="#{general.delete}">
                 </button> </td> </tr>
         </table>

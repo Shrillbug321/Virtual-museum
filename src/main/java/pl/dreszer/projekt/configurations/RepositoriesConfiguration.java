@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.dreszer.projekt.models.Genre;
-import pl.dreszer.projekt.models.Painting;
-import pl.dreszer.projekt.models.Technique;
+import pl.dreszer.projekt.models.*;
 import pl.dreszer.projekt.models.authorization.Role;
 import pl.dreszer.projekt.models.authorization.User;
 import pl.dreszer.projekt.repositories.*;
@@ -30,6 +28,8 @@ public class RepositoriesConfiguration{
     UsersRepository usersRepository;
     @Autowired
     RolesRepository rolesRepository;
+    @Autowired
+    MuseumsRepository museumsRepository;
     @Bean
     InitializingBean init()
     {
@@ -40,6 +40,13 @@ public class RepositoriesConfiguration{
                 genresRepository.save(new Genre(1,"Sielanka"));
                 genresRepository.save(new Genre(2,"Martwa natura"));
                 genresRepository.save(new Genre(3,"Rysunek"));
+            }
+            if (museumsRepository.findAll().isEmpty())
+            {
+                museumsRepository.save(new Museum(1, "Luwr", "Paryż"));
+                museumsRepository.save(new Museum(2, "Etruskie", "Watykan"));
+                museumsRepository.save(new Museum(3, "Miejskie Muzeum Sztuki", "Nowy Jork"));
+                museumsRepository.save(new Museum(4, "Galeria Uffizi", "Florencja"));
             }
             if(paintingsRepository.findAll().isEmpty())
             {
@@ -71,6 +78,8 @@ public class RepositoriesConfiguration{
 DROP TABLE USERS_ROLES ;
 drop table users ;
 drop table roles
+DROP TABLE PAINTINGS_GENRES ;
+drop table paintings ;
 */
                 User superuser = new User("superuser", true);
                 superuser.setPassword((passwordEncoder.encode("123")));
@@ -97,8 +106,11 @@ drop table roles
         painting1.setPaintedDate(LocalDate.of(1872, 5, 15));
         painting1.setValue(1000000.99f);
         painting1.setExhibited(false);
+        painting1.setDimensions("5x5");
         painting1.setTechnique(techniquesRepository.getById(1));
         painting1.setGenres(a);
+        painting1.setMuseum(museumsRepository.getById(1));
+        painting1.setExemplars(2);
         return painting1;
     }
 

@@ -66,7 +66,10 @@ public class Painting implements Serializable
     private float value;
 
     @Column(nullable=false)
-    private boolean exhibited;
+    private boolean exhibited=false;
+
+    @Column(nullable=false)
+    private String dimensions;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="technique_id", nullable = false)
@@ -79,6 +82,13 @@ public class Painting implements Serializable
             joinColumns = @JoinColumn(name="painting_id"),
             inverseJoinColumns = @JoinColumn(name="genre_id"))
     private Set<Genre> genres;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="museum_id")
+    private Museum museum;
+
+    @Column
+    private int exemplars;
 
     @Transient
     @Autowired

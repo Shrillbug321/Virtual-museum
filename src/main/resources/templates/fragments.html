@@ -48,7 +48,7 @@
 		<div style="clear:both"></div>
 	</div>
 	<div class="container content" th:fragment="footer">
-		<p th:text="#{footer}"></p>
+		<p th:utext="#{footer}"></p>
 		<span th:each="role: ${#authentication.getAuthorities()}">	<span th:text="${role}"></span>
    		</span>
 	</div>

@@ -7,8 +7,8 @@
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-	<p th:text="#{registration.success.success}"> </p>
-	<p th:text="#{registration.success.check_email}"> </p>
+	<p th:text="#{pdf.success.success}"> </p>
+	<button class="btn btn-light" onclick="history.go(-1)" th:text="#{general.go_back}"> </button>
 </div>
 </body>
 </html>

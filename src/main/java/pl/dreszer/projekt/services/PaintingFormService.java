@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import pl.dreszer.projekt.controllers.filters.PaintingFilter;
 import pl.dreszer.projekt.controllers.filters.PaintingsSpecifications;
+import pl.dreszer.projekt.formatters.DimensionFormatter;
 import pl.dreszer.projekt.models.Genre;
+import pl.dreszer.projekt.models.Museum;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
 import pl.dreszer.projekt.repositories.GenresRepository;
+import pl.dreszer.projekt.repositories.MuseumsRepository;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
 import pl.dreszer.projekt.repositories.TechniquesRepository;
 import pl.dreszer.projekt.validators.PaintingValidator;
@@ -36,6 +39,8 @@ public class PaintingFormService {
 	@Autowired
 	private GenresRepository genresRepository;
 	@Autowired
+	private MuseumsRepository museumsRepository;
+	@Autowired
 	private FileServiceImpl fileService;
 	@Value("${files.location.paintings.med}")
 	String filepath;
@@ -43,6 +48,7 @@ public class PaintingFormService {
 	public void initBinder(WebDataBinder binder)
 	{
 		binder.addValidators(new PaintingValidator());
+		binder.addCustomFormatter(new DimensionFormatter());
 	}
 
 	public void showForm(int paintingId, Model model, boolean edit)
@@ -81,9 +87,9 @@ public class PaintingFormService {
 	{
 		return techniquesRepository.findAll();
 	}
-
 	public List<Genre> loadGenresSet()
 	{
 		return genresRepository.findAll();
 	}
+	public List<Museum> loadMuseumsList() { return museumsRepository.findAll();}
 }

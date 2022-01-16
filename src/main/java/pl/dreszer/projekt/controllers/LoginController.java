@@ -18,7 +18,6 @@ public class LoginController {
 	@GetMapping("/checkUserConfirm")
 	public String checkUserConfirm()
 	{
-		//Authentication authentication = authenticationManager
 		if (isAuthenticated())
 		{
 			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

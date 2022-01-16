@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.dreszer.projekt.controllers.filters.PaintingFilter;
 import pl.dreszer.projekt.models.Genre;
+import pl.dreszer.projekt.models.Museum;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.models.Technique;
 import pl.dreszer.projekt.services.PaintingFormService;
@@ -56,5 +57,11 @@ public class PaintingFormController
 	public List<Genre> loadGenresSet()
 	{
 		return paintingFormService.loadGenresSet();
+	}
+
+	@ModelAttribute("museums")
+	public List<Museum> loadMuseumsList()
+	{
+		return paintingFormService.loadMuseumsList();
 	}
 }
