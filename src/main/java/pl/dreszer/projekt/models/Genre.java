@@ -15,12 +15,12 @@ import javax.persistence.Table;
 @Table(name="genres")
 public class Genre {
 	@Id
-	private int id;
+	private int genreId;
 	private String name;
 
-	public Genre(int id, String name)
+	public Genre(int genreId, String name)
 	{
-		this.id = id;
+		this.genreId = genreId;
 		this.name = name;
 	}
 }

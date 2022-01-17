@@ -14,7 +14,6 @@
         $(document).ready(function (){
             $("#languages").change(function (){
                 let language = $("#languages").val();
-                console.log(language);
                 if (language != "")
                     window.location.replace("?lang="+language);
             });
@@ -23,27 +22,32 @@
 </head>
 <body>
 <div class="container content" th:fragment="header(item)">
-	<a th:href="@{/index.html}" th:text="#{page.name}"> </a>
+	<a th:href="@{/index.html}"> <img id="logo" src="../images/virtual_museum_logo4_pl.png"> </a>
 		<ul id="menu">
-			<li th:classappend="${name == [[item]] ? 'activeMenuItem' : 'menuItem'}" name="paintings" sec:authorize="hasAnyRole('USER', 'ADMIN')">
-				<a th:href="@{/paintings/list.html}" th:text="#{menu.paintings}"></a> </li>
-			<li > <a th:href="@{/search/form.html}" th:text="#{menu.search}"></a> </li>
-			<li > <a th:href="@{/account/registration/form.html}" th:text="#{menu.register}"></a> </li>
-			<li sec:authorize="isAuthenticated()">
-				<p> Witaj <span sec:authentication="name"> </span></p>
-			</li>
-			<li sec:authorize="isAuthenticated()">
-				<form th:action="@{/account/authorization/logout}" method="post">
-					<input class="btn btn-light" type="submit" th:value="#{menu.logout}">
-				</form>
-			</li>
-			<li >
-				<select id="languages">
-					<option value="" th:text="#{lang.choose}"></option>
-					<option value="pl" th:text="#{lang.pl}"></option>
-					<option value="en" th:text="#{lang.en}"></option>
-				</select>
-			</li>
+			<div>
+				<li th:classappend="${name == [[item]] ? 'activeMenuItem' : 'menuItem'}" name="paintings" sec:authorize="hasAnyRole('USER', 'ADMIN')">
+					<a th:href="@{/paintings/list.html}" th:text="#{menu.paintings}"></a> </li>
+				<li > <a th:href="@{/search/form.html}" th:text="#{menu.search}"></a> </li>
+				<li > <a th:href="@{/account/registration/form.html}" th:text="#{menu.register}"></a> </li>
+			</div>
+			<div id="menu_right_part">
+				<li sec:authorize="isAuthenticated()">
+					<p> Witaj <span sec:authentication="name"> </span></p>
+				</li>
+				<li sec:authorize="isAuthenticated()">
+					<form th:action="@{/account/authorization/logout}" method="post">
+						<input class="btn btn-light" type="submit" th:value="#{menu.logout}">
+					</form>
+				</li>
+				<li >
+					<select id="languages">
+						<option value="" th:text="#{lang.choose}"></option>
+						<option value="pl" th:text="#{lang.pl}"></option>
+						<option value="en" th:text="#{lang.en}"></option>
+					</select>
+				</li>
+			</div>
+			
 		</ul>
 		<div style="clear:both"></div>
 	</div>

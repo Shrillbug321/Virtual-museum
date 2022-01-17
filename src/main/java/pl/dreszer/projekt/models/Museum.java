@@ -14,12 +14,12 @@ import javax.persistence.*;
 public class Museum {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private int museum_id;
+	private int museumId;
 	private String name;
 	private String place;
 
-	public Museum(int museum_id, String name, String place) {
-		this.museum_id = museum_id;
+	public Museum(int museumId, String name, String place) {
+		this.museumId = museumId;
 		this.name = name;
 		this.place = place;
 	}

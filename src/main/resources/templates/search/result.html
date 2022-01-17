@@ -12,7 +12,7 @@
     </div>
     <div th:if="${paintings.size} > 0">
         <table th:each="painting : ${paintings}">
-            <tr> <td> </td> <td> <a th:href="@{/paintings/details.html(paintingId=${painting.paintingId})}"> <span th:text="${painting.author +' '+ painting.name}"></span> </a> </td> </tr>
+            <tr> <td> <img th:src="${path}+'/'+${painting.paintingId}+'/image.jpg'"> </td> <td> <a th:href="@{/paintings/details.html(paintingId=${painting.paintingId})}"> <span th:text="${painting.author +' '+ painting.name}"></span> </a> </td> </tr>
             <tr> <td> </td> <td> <a th:href="@{/paintings/form.html(edit=true,paintingId=${painting.paintingId})}" th:text="#{general.edit}"> </a> </td> </tr>
             <tr> <td> </td> <td> <a th:href="@{/paintings/delete.html(paintingId=${painting.paintingId})}" th:text="#{general.delete}"> </a> </td> </tr>
         </table>

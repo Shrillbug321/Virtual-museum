@@ -22,6 +22,6 @@ public class PaintingDTO
 
     public void setGenres(Set<Genre> genres)
     {
-        genresIds = genres.stream().map(x->x.getId()).collect(Collectors.toSet());
+        genresIds = genres.stream().map(x->x.getGenreId()).collect(Collectors.toSet());
     }
 }
