@@ -5,14 +5,18 @@
 <head th:replace="~{fragments :: head('Logowanie')}">
 <body>
 <div layout:fragment="content">
+	<img id="logo" src="../images/virtual_museum_logo_pl.png" alt="logo">
 	<div th:if="${param.error}"	th:text="#{login.error}"> </div>
 	<div th:if="${param.logout}" th:text="#{login.logout}">	</div>
-	<form th:action="@{/login}" method="post">
-		<input type="text" name="username" th:placeholder="#{login.username}">
-		<input type="password" name="password" th:placeholder="#{login.password}">
-		<input type="submit" th:value="#{login.submit}">
+	<form id="loginForm" th:action="@{/login}" method="post">
+		<input class="form-control" type="text" name="username" th:placeholder="#{user.username}">
+		<input class="form-control" type="password" name="password" th:placeholder="#{user.password}">
+		<input class="btn btn-light" type="submit" th:value="#{login.submit}">
 	</form>
-	<a class="btn btn-light" th:href="@{/account/registration/form.html}" th:text="#{menu.register}"></a>
+	<div id="noAccount">
+		<p th:text="#{login.no_account}"></p>
+		<a class="btn btn-light" th:href="@{/account/registration/form.html}" th:text="#{menu.register}"></a>
+	</div>
 </div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package pl.dreszer.projekt.repositories;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -29,5 +28,4 @@ public interface PaintingsRepository extends JpaRepository<Painting, Integer>, J
 	List<Painting> findByGenre(@Param("genreId") int genreId);
 	@Query("select p from Painting p inner join p.museum m where m.museumId = :museumId")
 	List<Painting> findByMuseum(@Param("museumId") int museumId); //po nazwie i miejscu
-	//SELECT * FROM PAINTINGS_GENRES INNER JOIN Paintings USING (paINTING_ID) INNER JOIN genres USING (genre_id)
 }

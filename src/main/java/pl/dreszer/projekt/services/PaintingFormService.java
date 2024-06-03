@@ -69,6 +69,7 @@ public class PaintingFormService {
 	{
 		if (result.hasErrors())
 			return "form";
+		painting.setAddDate(LocalDate.now());
 		paintingsRepository.save(painting);
 		if (!multipartFile.isEmpty())
 		{

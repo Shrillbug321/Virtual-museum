@@ -40,11 +40,11 @@ public class PaintingFormController
 								 BindingResult result, @RequestParam(value = "edit") boolean edit, MultipartFile multipartFile)
 	{
 		String strResult = paintingFormService.processForm(model, painting, result, edit, multipartFile);
-		switch(strResult)
+		if(strResult.equals("success"))
 		{
-			case "success" : return "paintings/success";
-			default: return "paintings/form";
+			return "paintings/success";
 		}
+		return "paintings/form";
 	}
 
 	@ModelAttribute("techniques")

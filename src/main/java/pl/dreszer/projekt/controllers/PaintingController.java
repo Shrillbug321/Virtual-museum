@@ -27,7 +27,6 @@ public class PaintingController {
         return "paintings/details";
     }
 
-    @EntityGraph(value="pgraph", type= EntityGraph.EntityGraphType.FETCH)
     @RequestMapping("list.html")
     public String paintings(Model model)
     {

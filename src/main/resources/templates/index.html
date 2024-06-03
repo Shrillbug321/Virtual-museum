@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
 <head th:replace="~{fragments :: head('Wirtualne muzeum')}">
 <body>
-    <div th:replace="~{fragments :: header('index')}"></div>
+    <div layout:fragment="header" th:replace="~{fragments :: header('index')}"></div>
     <div style="clear:both"></div>
-    <div th:replace="~{fragments :: footer}"></div>
+    <div layout:fragment="content">
+        <p th:text="#{index.welcome}"></p>
+        <img id="welcomeImage" src="../images/welcome.jpg">
+    </div>
+    <div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>
 </body>
 </html>

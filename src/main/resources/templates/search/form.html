@@ -9,88 +9,120 @@
 <div layout:fragment="content">
     <div id="searchForms">
         <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
-            <input type="text" th:field="*{phrase}">
-            <select name="where" th:field="*{where}">
-                <option th:value="none" disabled selected th:text="#{search.form.choose_criteria}"> </option>
-                <option th:value="name" th:text="#{paintings.details.name}"> </option>
-                <option th:value="author" th:text="#{paintings.details.author}"> </option>
-                <option th:value="technique" th:text="#{paintings.details.technique}"> </option>
-            </select>
-            <input type="submit" th:value="#{search.form.search_paintings}">
-        </form>
-        <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
-                <label>  <span th:text="#{paintings.details.technique}"> </span>
-                    <select th:field="*{phrase}" name="technique_id">
-                        <option th:each="technique: ${techniques}" th:text="${technique.name}" th:value="${technique.id}">  </option>
-                    </select>
-                    <input name="where" value="technique" hidden>
+            <div class="form-group">
+                <label> <span th:text="#{search.form.text}"> </span>
+                    <input class="form-control" type="text" th:field="*{phrase}">
                 </label>
-                <input type="submit" th:value="#{search.form.search_paintings}">
+            </div>
+            <div class="form-group">
+                <select class="form-control btn-light" name="where" th:field="*{where}">
+                    <option th:value="none" disabled selected th:text="#{search.form.choose_criteria}"> </option>
+                    <option th:value="name" th:text="#{paintings.details.name}"> </option>
+                    <option th:value="author" th:text="#{paintings.details.author}"> </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                    <i class="bi-search"></i>
+                </button>
+            </div>
         </form>
         <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
-            <input type="number" min="0" max="10000000" step="0.01" th:field="*{min}">
-            <input type="number" min="0" max="10000000" step="0.01" th:field="*{max}">
-            <select name="where" th:field="*{where}">
+            <label>  <span th:text="#{paintings.details.technique}"> </span>
+                <select class="form-control btn-light" th:field="*{phrase}" name="technique_id">
+                    <option th:each="technique: ${techniques}" th:text="${technique.name}" th:value="${technique.id}">  </option>
+                </select>
+                <input name="where" value="technique" hidden>
+            </label>
+            <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                <i class="bi-search"></i>
+            </button>
+        </form>
+        <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
+            <label> <span th:text="#{search.form.min}"> </span>
+                <input class="form-control" type="number" min="0" max="10000000" step="0.01" th:field="*{min}">
+            </label>
+            <label> <span th:text="#{search.form.max}"> </span>
+                <input class="form-control" type="number" min="0" max="10000000" step="0.01" th:field="*{max}">
+            </label>
+            <select class="form-control btn-light" name="where" th:field="*{where}">
                 <option th:value="none" disabled selected th:text="#{search.form.choose_criteria}"> </option>
                 <option th:value="paintingValue" th:text="#{paintings.details.value}"> </option>
             </select>
-            <input type="submit" th:value="#{search.form.search_paintings}">
+            <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                <i class="bi-search"></i>
+            </button>
         </form>
         <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
-            <input type="date" th:field="*{minDate}">
-            <input type="date" th:field="*{maxDate}">
-            <select name="where" th:field="*{where}">
+            <label> <span th:text="#{search.form.min_date}"> </span>
+                <input class="form-control" type="date" th:field="*{minDate}">
+            </label>
+            <label> <span th:text="#{search.form.max_date}"> </span>
+                <input class="form-control" type="date" th:field="*{maxDate}">
+            </label>
+            <select class="form-control btn-light" name="where" th:field="*{where}">
                 <option th:value="none" disabled selected th:text="#{search.form.choose_criteria}"> </option>
-                <option th:value="paintedDate" th:text="#{paintings.details.painted_date}"> </option>
-                <option th:value="addDate" th:text="#{paintings.details.add_date}"> </option>
+                <option th:value="paintedDate" th:text="#{search.form.painted_date}"> </option>
+                <option th:value="addDate" th:text="#{search.form.add_date}"> </option>
             </select>
-            <input type="submit" th:value="#{search.form.search_paintings}">
+            <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                <i class="bi-search"></i>
+            </button>
         </form>
         <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
             <label>  <span th:text="#{paintings.details.exhibited}"> </span>
-                <select th:field="*{phrase}" name="exhibited">
+                <select class="form-control btn-light" th:field="*{phrase}" name="exhibited">
                     <option th:text="#{general.yes}" th:value="yes">  </option>
                     <option th:text="#{general.no}" th:value="no">  </option>
                 </select>
                 <input name="where" value="exhibited" hidden>
             </label>
-            <input type="submit" th:value="#{search.form.search_paintings}">
+            <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                <i class="bi-search"></i>
+            </button>
         </form>
        <!-- <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
             <label>  <span th:text="#{paintings.details.dimensions}"> </span>
                 <input name="width">x<input name="height">
                 <input name="where" value="dimensions" hidden>
             </label>
-            <input type="submit" th:value="#{search.form.search_paintings}">
+            <input class="search btn btn-secondary"  type="submit" th:value="#{search.form.search_paintings}">
         </form>-->
         <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
-            <label>  <span th:text="#{paintings.details.technique}"> </span>
-                <select th:field="*{phrase}" name="genreId">
+            <label>  <span th:text="#{paintings.details.genre}"> </span>
+                <select class="form-control btn-light" th:field="*{phrase}" name="genreId">
                     <option th:each="genre: ${genres}" th:text="${genre.name}" th:value="${genre.genreId}">  </option>
                 </select>
             </label>
             <input name="where" value="genre" hidden>
-            <input type="submit" th:value="#{search.form.search_paintings}">
+            <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                <i class="bi-search"></i>
+            </button>
         </form>
         <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
             <label>  <span th:text="#{paintings.details.museum.name}"> </span>
-                <select th:field="*{phrase}" name="museumId">
+                <select class="form-control btn-light" th:field="*{phrase}" name="museumId">
                     <option th:each="museum: ${museums}" th:text="${museum.name}" th:value="${museum.museumId}">  </option>
                 </select>
             </label>
             <input name="where" value="museum" hidden>
-            <input type="submit" th:value="#{search.form.search_paintings}">
+            <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                <i class="bi-search"></i>
+            </button>
         </form>
         <form th:method="POST" th:action="@{process.html}" th:object="${filter}">
             <label>  <span th:text="#{paintings.details.museum.place}"> </span>
-                <select th:field="*{phrase}" name="museumId">
+                <select class="form-control btn-light" th:field="*{phrase}" name="museumId">
                     <option th:each="museum: ${museums}" th:text="${museum.place}" th:value="${museum.museumId}">  </option>
                 </select>
             </label>
             <input name="where" value="museum" hidden>
-            <input type="submit" th:value="#{search.form.search_paintings}">
+            <button class="search btn btn-secondary" type="submit" aria-label="Search">
+                <i class="bi-search"></i>
+            </button>
         </form>
     </div>
 </div>
+<div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package pl.dreszer.projekt.services;
 
+import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -12,18 +13,20 @@ import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.AreaBreakType;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.dreszer.projekt.models.Genre;
 import pl.dreszer.projekt.models.Painting;
 import pl.dreszer.projekt.repositories.PaintingsRepository;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -41,7 +44,7 @@ public class PDFService {
 	@Autowired
 	PaintingsRepository paintingsRepository;
 
-	public void createPdfFromPainting(int paintingId) throws IOException {
+	public String createPdfFromPainting(int paintingId) throws IOException {
 		Painting painting = paintingsRepository.getById(paintingId);
 
 		new File(pdfsLocation).mkdirs();
@@ -52,6 +55,7 @@ public class PDFService {
 
 		createPage(document, painting, 1);
 		document.close();
+		return painting.getName();
 	}
 
 	public void createPdfFromList() throws IOException
@@ -78,10 +82,11 @@ public class PDFService {
 			document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 		Path imagePath = Path.of(imagesDir+"/paintings/med/"+painting.getPaintingId(), "/image.jpg");
 
-		PdfFont segoeui = PdfFontFactory.createFont("segoeui.ttf", "cp1250");
+		PdfFont segoeui = PdfFontFactory.createFont(StandardFonts.HELVETICA, "cp1250");
 		Table table = new Table(2);
 		table.setFont(segoeui);
-		table.addCell(getCell("Data dodania ").setFontSize(10)).addCell(getCell(painting.getAddDate().toString()).setFontSize(10));
+		document.add(new Paragraph("Data dodania "+painting.getAddDate().toString()).setFontSize(10));
+		document.add(new Image(ImageDataFactory.create(imagePath.toString())));
 		table.addCell(getCell("Nazwa ")).addCell(getCell(painting.getName()));
 		table.addCell(getCell("Autor ")).addCell(getCell(painting.getAuthor()));
 		table.addCell(getCell("Data namalowania ")).addCell(getCell(painting.getPaintedDate().toString()));
@@ -98,11 +103,17 @@ public class PDFService {
 		table.addCell(getCell("Muzeum ")).addCell(getCell(painting.getMuseum().getName()+", "+painting.getMuseum().getPlace()));
 		table.addCell(getCell("Sztuk ")).addCell(getCell(painting.getExemplars()+""));
 		document.add(table);
-		document.add(new Image(ImageDataFactory.create(imagePath.toString())));
 		Paragraph footer = new Paragraph(Integer.toString(pageNumber));
 		document.showTextAligned(footer, 400, 25, pageNumber, TextAlignment.RIGHT, VerticalAlignment.MIDDLE,0);
 	}
-
+	public void openPdfFile(@RequestParam String name, HttpServletResponse response) throws IOException {
+		response.setContentType("application/pdf");
+		FileSystemResource pdfFile = new FileSystemResource("H:/Semestr V/PP/Projekt/pdfs/"+name+".pdf");
+		InputStream is = pdfFile.getInputStream();
+		IOUtils.copy(is, response.getOutputStream());
+		response.setHeader("content-disposition", "inline;filename=" + name+".pdf");
+		response.flushBuffer();
+	}
 	private Cell getCell(String text)
 	{
 		Cell cell = new Cell().add(new Paragraph(text));

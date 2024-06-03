@@ -8,7 +8,9 @@
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
 	<p th:text="#{pdf.success.success}"> </p>
-	<button class="btn btn-light" onclick="history.go(-1)" th:text="#{general.go_back}"> </button>
+	<button class="btn btn-light bi-arrow-return-left" onclick="history.go(-1)" th:text="#{general.go_back}"> </button>
+	<a class="btn btn-light bi-files" th:href="@{open(name=${param.name})}" th:text="#{pdf.open}"> </a>
+	
 </div>
 </body>
 </html>

@@ -16,12 +16,6 @@ public class PaintingValidator implements Validator {
         ValidationUtils.rejectIfEmpty(errors, "value", "Negative.painting.value");
         Painting painting = (Painting) target;
         if (painting.getAuthor().equals(painting.getName()))
-        {
             errors.rejectValue("author", "Error.painting.equalsAuthorAndName");
-        }
-        /*if ( Math.ceil(painting.getValue()*100) > painting.getValue()*100)
-        {
-            errors.rejectValue("value", "NumberFormat.painting.value");
-        }*/
     }
 }

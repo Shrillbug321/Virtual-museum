@@ -4,17 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import pl.dreszer.projekt.models.authorization.Role;
 import pl.dreszer.projekt.models.authorization.User;
 import pl.dreszer.projekt.processors.MailProcessor;
+import pl.dreszer.projekt.repositories.RolesRepository;
 import pl.dreszer.projekt.repositories.UsersRepository;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class RegisterFormService {
 	@Autowired
 	UsersRepository usersRepository;
+
+	@Autowired
+	RolesRepository rolesRepository;
 
 	@Autowired
 	MailService mailService;
@@ -44,7 +51,10 @@ public class RegisterFormService {
 		User user = usersRepository.findByUsername(username);
 		if(user!= null)
 		{
+			Set<Role> roles = new HashSet<>();
+			roles.add(rolesRepository.getById(1));
 			user.setConfirmed(true);
+			user.setRoles(roles);
 			usersRepository.save(user);
 			return "confirmSuccess";
 		}

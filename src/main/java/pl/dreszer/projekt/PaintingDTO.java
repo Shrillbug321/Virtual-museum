@@ -3,7 +3,6 @@ package pl.dreszer.projekt;
 import lombok.Getter;
 import lombok.Setter;
 import pl.dreszer.projekt.models.Genre;
-import pl.dreszer.projekt.models.Technique;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,12 +15,8 @@ public class PaintingDTO
     private int techniqueId;
     private Set<Integer> genresIds;
 
-   /* public void setTechnique(Technique technique){
-        this.techniqueId = technique.getId();
-    }*/
-
     public void setGenres(Set<Genre> genres)
     {
-        genresIds = genres.stream().map(x->x.getGenreId()).collect(Collectors.toSet());
+        genresIds = genres.stream().map(Genre::getGenreId).collect(Collectors.toSet());
     }
 }

@@ -14,25 +14,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Getter
-@Setter
+@Getter @Setter
 @ToString
 @Profile(Profiles.PLAIN_CONTROLLERS)
 @Entity
-@NamedEntityGraph
-(
-        name="pgraph",
-        attributeNodes = {
-                @NamedAttributeNode("technique"),
-                @NamedAttributeNode("genres")
-        }
-)
 @NamedQuery(name="Painting.findByTechnique", query="select p, t from Painting p, Technique t where t.name = ?1 or p.name=?1")
 @Table(name="paintings")
 public class Painting implements Serializable
@@ -50,7 +42,6 @@ public class Painting implements Serializable
     private String author;
 
     @Column(name="add_date", nullable=false)
-    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
     private LocalDate addDate;
 
@@ -75,7 +66,6 @@ public class Painting implements Serializable
     @JoinColumn(name="technique_id", nullable = false)
     @ToString.Exclude
     private Technique technique;
-    //dodaj kierunek, nurt?
 
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="paintings_genres",
@@ -88,6 +78,7 @@ public class Painting implements Serializable
     private Museum museum;
 
     @Column
+    @NotNull
     private int exemplars;
 
     @Transient

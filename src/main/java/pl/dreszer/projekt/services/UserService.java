@@ -2,7 +2,6 @@ package pl.dreszer.projekt.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,13 +27,7 @@ public class UserService implements IUserService
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = usersRepository.findByUsername(username);
 		if (user == null)
-		{
 			throw new UsernameNotFoundException(username);
-		}
-		if (!user.isEnabled())
-		{
-			user = usersRepository.findByUsername("dummy");
-		}
 		return convertToUserDetails(user);
 	}
 
@@ -42,9 +35,7 @@ public class UserService implements IUserService
 	{
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		for (Role role: user.getRoles())
-		{
 			grantedAuthorities.add(new SimpleGrantedAuthority(role.getType().toString()));
-		}
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 				true, true, true, true, grantedAuthorities);
 	}

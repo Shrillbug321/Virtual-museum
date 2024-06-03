@@ -7,6 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 @Getter
@@ -19,13 +21,22 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer user_id;
+
+	@NotNull
 	@Size(min=2, max=36)
 	private String username;
 
+	@NotNull
+	@Size(min=4, max=100)
 	private String password;
+
 	@Transient
 	private String passwordConfirm;
+
+	@NotNull
+	@Email
 	private String email;
+
 	private boolean enabled = true;
 	private boolean confirmed = false;
 

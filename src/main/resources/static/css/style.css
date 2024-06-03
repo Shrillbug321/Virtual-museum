@@ -1,42 +1,21 @@
+html
+{
+	--secondary: #6c757d;
+}
+
 a
 {
 	text-decoration: none;
 }
 
+p
+{
+	margin: 0;
+}
 body
 {
-	//background-image: url("../images/background.jpg");
+	background-image: url("../images/background.jpg");
 	background-size: cover;
-}
-
-.content
-{
-	background-color: rgba(255,255,255,0.9);
-	padding: 15px 35px;
-}
-
-#logo
-{
-	height: 50px;
-}
-
-#menu
-{
-	content: none;
-	list-style: none;
-}
-
-#menu li
-{
-	float:left;
-	display: block;
-	width: 100px;
-	text-align: center;
-}
-
-#menu_right_part
-{
-	float: right;
 }
 
 td
@@ -46,9 +25,132 @@ td
 	padding: 5px;
 }
 
+input[type="checkbox"]
+{
+	width: 20px;
+}
+
+.content
+{
+	background-color: white;
+	padding: 15px 35px;
+}
+
+#logo
+{
+	height: 50px;
+	margin: 10px;
+}
+
+#menu
+{
+	content: none;
+	list-style: none;
+	border-bottom: 3px solid var(--secondary);
+}
+
+#menu li
+{
+	float:left;
+	display: block;
+	width: 120px;
+	text-align: center;
+}
+
+#menu a, #menu p, #menu select, #menu input
+{
+	width: 110px;
+}
+
+#menu_right_part
+{
+	float: right;
+}
+
+.usernameButton
+{
+	cursor: default !important;
+	background-color: white;
+}
+
 .activeMenuItem
 {
 	font-weight: 500;
+}
+
+#welcomeImage
+{
+	width: 100%;
+}
+#footer
+{
+	color: white;
+	background-color: var(--secondary);
+	border-radius: .25rem;
+	display: grid;
+	grid-template-columns: max-content  max-content max-content max-content max-content max-content;
+	grid-gap: 60px;
+}
+#paintingsList
+{
+	margin: 15px 0;
+}
+#paintingsList tr
+{
+	border-collapse: collapse;
+	border: 3px solid var(--secondary);
+}
+
+#paintingsList td
+{
+	border-collapse: collapse;
+	border: 0px solid var(--secondary);
+	padding: 5px;
+}
+
+#paintingDetails
+{
+	//border: 3px solid #6c757d;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+#paintingDetails table td
+{
+	border-collapse: collapse;
+	border: 0px solid black;
+	//border-bottom: 2px solid var(--secondary);
+	padding: 5px;
+}
+
+#paintingDetails table
+{
+	margin: 10px;
+}
+
+#genres
+{
+	display: grid;
+	grid-template-columns: 20px  120px 20px  120px
+}
+
+#genres span
+{
+	margin-left: 10px;
+}
+
+#paintingForm input[type="submit"]
+{
+	/*display: grid;
+	grid-template-columns: max-content max-content max-content max-content;
+	grid-gap: 10px;*/
+	width: 250px;
+}
+
+#paintingForm input[type="file"]
+{
+	width: 250px;
 }
 
 #searchForms
@@ -60,11 +162,47 @@ td
 #searchForms form
 {
 	display: grid;
-	grid-template-columns: 300px 150px 150px;
+	grid-template-columns: 130px 130px 130px 50px;
 	grid-gap: 10px;
+	height: 60px;
+	align-items: end;
 }
 
-#searchForms input, select
+#searchForms input, #searchForms select
 {
-	width: 150px;
+	width: 130px;
+	//height: 30px;
 }
+
+/*#searchForms button
+{
+	width: 40px !important;
+//height: 30px;
+}*/
+#searchForms .search
+{
+	width: 40px;
+	//height: 30px;
+}
+#searchForms label
+{
+	margin: 0;
+}
+
+#loginForm input, #registrationForm input
+{
+	width: 150px !important;
+	height: 35px !important;
+}
+
+#noAccount
+{
+	margin: 10px 0;
+}
+
+/*
+input
+{
+	width: 130px !important;
+	height: 30px !important;
+}*/

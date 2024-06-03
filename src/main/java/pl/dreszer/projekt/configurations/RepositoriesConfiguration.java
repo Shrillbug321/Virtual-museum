@@ -50,10 +50,8 @@ public class RepositoriesConfiguration{
             }
             if(paintingsRepository.findAll().isEmpty())
             {
-                Technique technique = new Technique(1,"Olej na płótnie");
-                techniquesRepository.save(technique);
-                technique = new Technique(2,"Olej na miedzi");
-                techniquesRepository.save(technique);
+                techniquesRepository.save(new Technique(1,"Olej na płótnie"));
+                techniquesRepository.save(new Technique(2,"Olej na miedzi"));
                 paintingsRepository.save(createPainting());
             }
 
