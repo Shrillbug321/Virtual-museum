@@ -1,53 +1,96 @@
 <!DOCTYPE html>
 <html lang="pl"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{template.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
 <head th:replace="~{fragments :: headDelete('Sczegóły obrazu')}">
 <body>
-	<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
-	<div layout:fragment="content">
-		<div id="buttons">
-			<a class="btn btn-light bi-file-earmark-pdf" th:href="@{details/createPdf.html(paintingId=${painting.paintingId})}"
-			   th:text="#{pdf.generate}"> </a>
-			<div sec:authorize="hasRole('ADMIN')">
-				<a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}"
-				   th:text="#{general.edit}"> </a>
-				<button class="delete btn btn-light bi-trash" type="button" data-toggle="modal" data-target="#exampleModal"
-						th:data-id="${painting.paintingId}" th:text="#{general.delete}">
-				</button>
-			</div>
-		</div>
-		<div id="paintingDetails">
-			<table th:object="${painting}">
-				<tr> <td th:text="#{paintings.details.add_date}">  </td> <td th:text="${#temporals.format(painting.addDate, 'dd-MM-yyyy')}"> </td> </tr>
-				<tr> <td colspan="2"> <img th:src="${filepath}"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.name}"> </td> <td th:text="*{name}"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.author}">  </td> <td th:text="*{author}"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.painted_date}">  </td> <td th:text="${#temporals.format(painting.paintedDate, 'dd-MM-yyyy')}"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.value}">  </td> <td th:text="*{value}"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.exhibited}">  </td> <td th:if="${painting.isExhibited} == false"> nie</td> <td th:if="${painting.isExhibited} == true"> tak</td> </tr>
-				<tr> <td th:text="#{paintings.details.technique}">  </td> <td th:text="*{technique.name}"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.dimensions}">  </td> <td th:text="*{dimensions}"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.genre}">  </td> <td> <div th:each="genre : *{genres}"> <span th:text="${genre.name}"></span> </div> </td> </tr>
-				<tr> <td th:text="#{paintings.details.museum}">  </td> <td th:text="|*{museum.name}, *{museum.place}|"> </td> </tr>
-				<tr> <td th:text="#{paintings.details.exemplars}">  </td> <td th:text="*{exemplars}"> </td> </tr>
-			</table>
-		</div>
-		<div id="buttons">
-			<a class="btn btn-light bi-file-earmark-pdf" th:href="@{details/createPdf.html(paintingId=${painting.paintingId})}"
-			   th:text="#{pdf.generate}"> </a>
-			<div sec:authorize="hasRole('ADMIN')">
-				<a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}"
-				   th:text="#{general.edit}"> </a>
-				<button class="delete btn btn-light bi-trash" type="button" data-toggle="modal" data-target="#exampleModal"
-						th:data-id="${painting.paintingId}" th:text="#{general.delete}">
-				</button>
-			</div><br>
-			<a class="btn btn-light bi-arrow-return-left" th:href="@{list.html}"
-			   th:text="#{general.return}"> </a>
-		</div>
-		<div th:replace="~{fragments :: deleteModal}"></div>
-	</div>
-	<div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>
+<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
+<div layout:fragment="content">
+    <div id="buttons">
+        <a class="btn btn-light bi-file-earmark-pdf"
+           th:href="@{details/createPdf.html(paintingId=${painting.paintingId})}"
+           th:text="#{pdf.generate}"> </a>
+        <div sec:authorize="hasRole('ADMIN')">
+            <a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}"
+               th:text="#{general.edit}"> </a>
+            <button class="delete btn btn-outline-danger bi-trash" type="button" data-toggle="modal"
+                    data-target="#exampleModal"
+                    th:data-id="${painting.paintingId}" th:text="#{general.delete}">
+            </button>
+        </div>
+    </div>
+    <div id="paintingDetails">
+        <table th:object="${painting}">
+            <tr>
+                <td th:text="#{paintings.details.add_date}"></td>
+                <td th:text="${#temporals.format(painting.addDate, 'dd-MM-yyyy')}"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><img th:src="${filepath}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.name}"></td>
+                <td th:text="*{name}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.author}"></td>
+                <td th:text="*{author}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.painted_date}"></td>
+                <td th:text="${#temporals.format(painting.paintedDate, 'dd-MM-yyyy')}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.value}"></td>
+                <td th:text="*{value}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.exhibited}"></td>
+                <td th:if="${painting.isExhibited} == false"> nie</td>
+                <td th:if="${painting.isExhibited} == true"> tak</td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.technique}"></td>
+                <td th:text="*{technique.name}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.dimensions}"></td>
+                <td th:text="*{dimensions}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.genre}"></td>
+                <td>
+                    <div th:each="genre : *{genres}"><span th:text="${genre.name}"></span></div>
+                </td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.museum}"></td>
+                <td th:text="|*{museum.name}, *{museum.place}|"></td>
+            </tr>
+            <tr>
+                <td th:text="#{paintings.details.exemplars}"></td>
+                <td th:text="*{exemplars}"></td>
+            </tr>
+        </table>
+    </div>
+    <div id="buttons">
+        <a class="btn btn-light bi-file-earmark-pdf"
+           th:href="@{details/createPdf.html(paintingId=${painting.paintingId})}"
+           th:text="#{pdf.generate}"> </a>
+        <div sec:authorize="hasRole('ADMIN')">
+            <a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}"
+               th:text="#{general.edit}"> </a>
+            <button class="delete btn btn-outline-danger bi-trash" type="button" data-toggle="modal"
+                    data-target="#exampleModal"
+                    th:data-id="${painting.paintingId}" th:text="#{general.delete}">
+            </button>
+        </div>
+        <br>
+        <a class="btn btn-warning bi-arrow-return-left" th:href="@{list.html}"
+           th:text="#{general.return}"> </a>
+    </div>
+    <div th:replace="~{fragments :: deleteModal(paintings)}"></div>
+</div>
+<div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>
 </body>
 </html>

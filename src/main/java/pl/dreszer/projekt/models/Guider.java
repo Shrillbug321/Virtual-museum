@@ -10,14 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 
 @Entity(name = "guiders")
-public class Guider
-{
+public class Guider {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int guiderId;
 
     @NotNull
@@ -31,9 +31,4 @@ public class Guider
         this.name = name;
         this.surname = surname;
     }
-
-    /*DROP TABLE trip_users;
-    DROP TABLE trip_guiders;
-    DROP TABLE trip;
-    DROP TABLE guider*/
 }

@@ -8,18 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
-@Table(name="genres")
+@Table(name = "genres")
 public class Genre {
-	@Id
-	private int genreId;
-	private String name;
+    @Id
+    private int genreId;
+    private String name;
 
-	public Genre(int genreId, String name)
-	{
-		this.genreId = genreId;
-		this.name = name;
-	}
+    public Genre(int genreId, String name) {
+        this.genreId = genreId;
+        this.name = name;
+    }
 }

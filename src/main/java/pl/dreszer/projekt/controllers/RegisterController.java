@@ -13,30 +13,27 @@ import pl.dreszer.projekt.services.RegisterFormService;
 
 @Controller
 @RequestMapping("/account/registration")
-public class RegisterController
-{
-	@Autowired
-	RegisterFormService registerFormService;
-	@GetMapping("/form.html")
-	public String showRegistrationForm(Model model)
-	{
-		registerFormService.showRegistrationForm(model);
-		return "account/registration/form";
-	}
+public class RegisterController {
+    @Autowired
+    RegisterFormService registerFormService;
 
-	@PostMapping("/form.html")
-	public String processForm(User user, BindingResult result)
-	{
-		if (registerFormService.processForm(user, result).equals("failed"))
-			return "account/registration/failed";
-		return "account/registration/success";
-	}
+    @GetMapping("/form.html")
+    public String showRegistrationForm(Model model) {
+        registerFormService.showRegistrationForm(model);
+        return "account/registration/form";
+    }
 
-	@GetMapping("/confirm.html")
-	public String confirm(@RequestParam("u") String username)
-	{
-		if (registerFormService.confirm(username).equals("confirmSuccess"))
-			return "account/registration/confirm/success";
-		return "account/registration/confirm/failed";
-	}
+    @PostMapping("/form.html")
+    public String processForm(User user, BindingResult result) {
+        if (registerFormService.processForm(user, result).equals("failed"))
+            return "account/registration/failed";
+        return "account/registration/success";
+    }
+
+    @GetMapping("/confirm.html")
+    public String confirm(@RequestParam("u") String username) {
+        if (registerFormService.confirm(username).equals("confirmSuccess"))
+            return "account/registration/confirm/success";
+        return "account/registration/confirm/failed";
+    }
 }

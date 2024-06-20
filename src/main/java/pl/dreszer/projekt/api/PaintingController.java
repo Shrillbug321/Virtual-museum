@@ -23,20 +23,18 @@ public class PaintingController {
 
     @Value("${files.location.paintings.max}")
     String path;
+
     @GetMapping("/{paintingId}")
-    public Painting paintingDetails(@PathVariable int paintingId)
-    {
+    public Painting paintingDetails(@PathVariable int paintingId) {
         Painting painting = paintingsRepository.getById(paintingId);
-        if (!paintingsRepository.existsById(paintingId))
-        {
+        if (!paintingsRepository.existsById(paintingId)) {
             throw new PaintingNotFoundException();
         }
         return painting;
     }
 
     @GetMapping()
-    public List<Painting> paintings()
-    {
+    public List<Painting> paintings() {
         return paintingsRepository.findAll();
     }
 
@@ -45,6 +43,4 @@ public class PaintingController {
     public void deletePainting(@PathVariable int id) {
         paintingsRepository.deleteById(id);
     }
-
 }
-

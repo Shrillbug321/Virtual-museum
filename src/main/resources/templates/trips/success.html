@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Sczegóły obrazu')}">
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
+<div layout:fragment="content">
+    <div th:switch="${edit}">
+        <p th:case="true" th:text="#{paintings.success.edit}"> </p>
+        <p th:case="false" th:text="#{paintings.success.add}"> </p>
+    </div><p>Zapisano</p>
+</div>
+</body>
+</html>

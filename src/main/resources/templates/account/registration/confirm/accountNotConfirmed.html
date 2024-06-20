@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pl"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{template.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
 <head th:replace="~{fragments :: head('Formularz obrazu')}">
 <body>
 <div layout:fragment="content">
-	<p th:text="#{login.account_not_confirmed}"></p>
-	<button class="btn btn-light" onclick="history.go(-1)" th:text="#{general.go_back}"> </button>
+    <p th:text="#{login.account_not_confirmed}"></p>
+    <button class="btn btn-warning" onclick="history.go(-1)" th:text="#{general.return}"></button>
 </div>
 </body>
 </html>

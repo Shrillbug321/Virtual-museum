@@ -16,46 +16,43 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Bean
-	public PasswordEncoder passwordEncoder()
-	{
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Profile(Profiles.USERS_IN_MEMORY)
-	@Bean
-	public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder)
-	{
-		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-		User.UserBuilder userBuilder = User.builder();
-		UserDetails user = userBuilder.username("user")
-						.password(passwordEncoder.encode("123"))
-						.roles("USER").build();
-		UserDetails admin = userBuilder.username("admin")
-						.password(passwordEncoder.encode("admin"))
-						.roles("ADMIN").build();
-		UserDetails superUser = userBuilder.username("superUser")
-				.password(passwordEncoder.encode("secret"))
-				.roles("ADMIN", "USER").build();
-		manager.createUser(user);
-		manager.createUser(admin);
-		manager.createUser(superUser);
-		return manager;
-	}
+    @Profile(Profiles.USERS_IN_MEMORY)
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        User.UserBuilder userBuilder = User.builder();
+        UserDetails user = userBuilder.username("user")
+                .password(passwordEncoder.encode("123"))
+                .roles("USER").build();
+        UserDetails admin = userBuilder.username("admin")
+                .password(passwordEncoder.encode("admin"))
+                .roles("ADMIN").build();
+        UserDetails superUser = userBuilder.username("superUser")
+                .password(passwordEncoder.encode("secret"))
+                .roles("ADMIN", "USER").build();
+        manager.createUser(user);
+        manager.createUser(admin);
+        manager.createUser(superUser);
+        return manager;
+    }
 
-	@Override
-	protected void configure(HttpSecurity httpSec) throws Exception
-	{
-		httpSec.authorizeRequests()
-			.antMatchers("/css/**","/images/**", "/index**", "/paintings**", "/h2-console/**").permitAll()
-			.antMatchers("/account/registration/**").permitAll()
-			.antMatchers("/paintingsDetails**").hasRole("USER")
-			.antMatchers("/paintingForm**", "delete**").hasRole("ADMIN")
-			.anyRequest().authenticated()
-			.and().csrf().ignoringAntMatchers("/h2-console/**")
-			.and().headers().frameOptions().sameOrigin();
-		httpSec.formLogin().loginPage("/login").permitAll();
-		httpSec.logout().logoutUrl("/account/authorization/logout").permitAll();
-		httpSec.exceptionHandling().accessDeniedPage("/403");
-	}
+    @Override
+    protected void configure(HttpSecurity httpSec) throws Exception {
+        httpSec.authorizeRequests()
+                .antMatchers("/css/**", "/images/**", "/index**", "/paintings**", "/h2-console/**").permitAll()
+                .antMatchers("/account/registration/**").permitAll()
+                .antMatchers("/paintingsDetails**").hasRole("USER")
+                .antMatchers("/paintingForm**", "delete**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and().csrf().ignoringAntMatchers("/h2-console/**")
+                .and().headers().frameOptions().sameOrigin();
+        httpSec.formLogin().loginPage("/login").permitAll();
+        httpSec.logout().logoutUrl("/account/authorization/logout").permitAll();
+        httpSec.exceptionHandling().accessDeniedPage("/403");
+    }
 }

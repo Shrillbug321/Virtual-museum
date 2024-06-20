@@ -3,28 +3,26 @@ package pl.dreszer.projekt.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.collection.internal.PersistentSet;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.dreszer.projekt.models.authorization.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
-@Entity(name="trips")
-public class Trip
-{
+@Entity(name = "trips")
+public class Trip {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tripId;
     @ManyToOne
     private Guider guider;
     private String subject;
-    @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy", iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
     private String description;
     @ManyToMany

@@ -13,31 +13,27 @@ import pl.dreszer.projekt.repositories.UsersRepository;
 @Controller
 public class LoginController {
 
-	@Autowired
-	UsersRepository usersRepository;
-	@GetMapping("/checkUserConfirm")
-	public String checkUserConfirm()
-	{
-		if (isAuthenticated())
-		{
-			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			System.out.println(userDetails.getUsername());
-			User user = usersRepository.findByUsername(userDetails.getUsername());
-			if (user.isConfirmed())
-				return "index";
-			return "account/registration/confirm/accountNotConfirmed";
-		}
-		else
-			return "account/authorization/login";
-	}
+    @Autowired
+    UsersRepository usersRepository;
 
-	private boolean isAuthenticated()
-	{
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass()))
-		{
-			return false;
-		}
-		return true;
-	}
+    @GetMapping("/checkUserConfirm")
+    public String checkUserConfirm() {
+        if (isAuthenticated()) {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            System.out.println(userDetails.getUsername());
+            User user = usersRepository.findByUsername(userDetails.getUsername());
+            if (user.isConfirmed())
+                return "index";
+            return "account/registration/confirm/accountNotConfirmed";
+        } else
+            return "account/authorization/login";
+    }
+
+    private boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return true;
+    }
 }

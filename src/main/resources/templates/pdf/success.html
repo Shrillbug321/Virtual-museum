@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="pl"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{template.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
 <head th:replace="~{fragments :: head('Rejestracja')}">
 </head>
 <body>
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
-	<p th:text="#{pdf.success.success}"> </p>
-	<button class="btn btn-light bi-arrow-return-left" onclick="history.go(-1)" th:text="#{general.go_back}"> </button>
-	<a class="btn btn-light bi-files" th:href="@{open(name=${param.name})}" th:text="#{pdf.open}"> </a>
-	
+    <p th:text="#{pdf.success.success}"></p>
+    <button class="btn btn-warning bi-arrow-return-left" onclick="history.go(-1)" th:text="#{general.return}"></button>
+    <a class="btn btn-light bi-files" th:href="@{open(name=${param.name})}" th:text="#{pdf.open}"> </a>
+
 </div>
 </body>
 </html>

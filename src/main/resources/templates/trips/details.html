@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: headDelete('Sczegóły obrazu')}">
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
+<div layout:fragment="content">
+    <div id="buttons">
+        <div sec:authorize="hasRole('ADMIN')">
+            <a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,tripId=${trip.tripId})}"
+               th:text="#{general.edit}"> </a>
+            <button class="delete btn btn-outline-danger bi-trash" type="button" data-toggle="modal"
+                    data-target="#exampleModal"
+                    th:data-id="${trip.tripId}" th:text="#{general.delete}">
+            </button>
+        </div>
+    </div>
+    <div id="paintingDetails">
+        <table th:object="${trip}">
+            <tr>
+                <td th:text="#{trip.subject}"></td>
+                <td th:text="*{subject}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{trip.guider}"></td>
+                <td th:text="|*{guider.name} *{guider.surname}|"></td>
+            </tr>
+            <tr>
+                <td th:text="#{trip.date}"></td>
+                <td th:text="${#temporals.format(trip.date, 'dd-MM-yyyy')}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{trip.description}"></td>
+                <td th:text="*{description}"></td>
+            </tr>
+        </table>
+    </div>
+    <div id="buttons">
+        <div sec:authorize="hasRole('ADMIN')">
+            <a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,tripId=${trip.tripId})}"
+               th:text="#{general.edit}"> </a>
+            <button class="delete btn btn-outline-danger bi-trash" type="button" data-toggle="modal"
+                    data-target="#exampleModal"
+                    th:data-id="${trip.tripId}" th:text="#{general.delete}">
+            </button>
+        </div>
+        <br>
+        <a class="btn btn-warning bi-arrow-return-left" th:href="@{list.html}"
+           th:text="#{general.return}"> </a>
+    </div>
+    <div th:replace="~{fragments :: deleteModal(trips)}"></div>
+</div>
+<div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

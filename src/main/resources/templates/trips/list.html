@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: headDelete('Wycieczki')}">
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
+<div layout:fragment="content">
+    <div id="buttons">
+        <a class="btn btn-success bi-plus-lg" th:href="@{form.html(edit=false)}" sec:authorize="hasRole('ADMIN')"
+           th:text="#{general.add}"> </a>
+    </div>
+    <div th:if="${trips.size} == 0">
+        <p th:text="#{trips.list.empty}"></p>
+    </div>
+    <div th:if="${trips.size} > 0">
+        <table id="paintingsList">
+            <tr th:each="trip : ${trips}">
+                <td></td>
+                <td><a class="btn btn-outline-dark" th:href="@{details.html(tripId=${trip.tripId})}">
+                    <span th:text="|${trip.guider.name} ${trip.guider.surname}|"></span> <br>
+                    <span th:text="${trip.subject}"></span> </a>
+                </td>
+                <td>
+                    <p th:text="#{trip.time_to_start(${daysToStart.get(trip.tripId)})}"></p>
+                </td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,tripId=${trip.tripId})}"
+                       th:text="#{general.edit}"> </a> <br>
+                    <button class="delete btn btn-outline-danger bi-trash" type="button" data-toggle="modal"
+                            data-target="#exampleModal"
+                            th:data-id="${trip.tripId}" th:text="#{general.delete}">
+                    </button>
+                </td>
+                <td>
+                    <a th:if="${saved.get(trip.tripId) == 1}" class="btn btn-dark"
+                       th:href="@{unsave.html(tripId=${trip.tripId})}"
+                       th:text="#{trip.unsave}"> </a>
+                    <a th:if="${saved.get(trip.tripId) == 0}" class="btn btn-light"
+                       th:href="@{save.html(tripId=${trip.tripId})}"
+                       th:text="#{trip.save}"> </a> <br>
+                </td>
+            </tr>
+        </table>
+        <div id="buttons">
+            <a class="btn btn-success bi-plus-lg" th:href="@{form.html(edit=false)}" sec:authorize="hasRole('ADMIN')"
+               th:text="#{general.add}"> </a>
+        </div>
+        <div th:replace="~{fragments :: deleteModal(trips)}"></div>
+    </div>
+</div>
+<div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>
+</body>
+</html>

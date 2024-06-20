@@ -1,7 +1,9 @@
 package pl.dreszer.projekt.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,67 +16,67 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 @Profile(Profiles.PLAIN_CONTROLLERS)
 @Entity
-@NamedQuery(name="Painting.findByTechnique", query="select p, t from Painting p, Technique t where t.name = ?1 or p.name=?1")
-@Table(name="paintings")
-public class Painting implements Serializable
-{
+@NamedQuery(name = "Painting.findByTechnique", query = "select p, t from Painting p, Technique t where t.name = ?1 or p.name=?1")
+@Table(name = "paintings")
+public class Painting implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paintingId;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     @NotEmpty
     private String name;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     @NotEmpty
     private String author;
 
-    @Column(name="add_date", nullable=false)
-    @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
+    @Column(name = "add_date", nullable = false)
+    @DateTimeFormat(pattern = "dd-MM-yyyy", iso = DateTimeFormat.ISO.DATE)
     private LocalDate addDate;
 
-    @Column(name="painted_date", nullable=false)
+    @Column(name = "painted_date", nullable = false)
     @Past
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy", iso=DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy", iso = DateTimeFormat.ISO.DATE)
     private LocalDate paintedDate;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     @NotNull
     @NumberFormat(pattern = "#.##")
     private float value;
 
-    @Column(nullable=false)
-    private boolean exhibited=false;
+    @Column(nullable = false)
+    private boolean exhibited = false;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String dimensions;
 
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="technique_id", nullable = false)
+    @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "technique_id", nullable = false)
     @ToString.Exclude
     private Technique technique;
 
-    @ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(name="paintings_genres",
-            joinColumns = @JoinColumn(name="painting_id"),
-            inverseJoinColumns = @JoinColumn(name="genre_id"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "paintings_genres",
+            joinColumns = @JoinColumn(name = "painting_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="museum_id")
+    @JoinColumn(name = "museum_id")
     private Museum museum;
 
     @Column
@@ -84,25 +86,16 @@ public class Painting implements Serializable
     @Transient
     @Autowired
     private TechniquesRepository techniquesRepository;
+
     @Transient
     @Autowired
     private GenresRepository genresRepository;
 
-    public Painting()
-    {
+    public Painting() {
         this.technique = new Technique();
         this.genres = new HashSet<>();
     }
 
-    public void setGenresIds(Set<Integer> genresIds)
-    {
-        //genres = genresIds.stream().map(x->new Genre(x)).collect(Collectors.toSet());
-    }
-
-    /*public  void setTechnique(int techniqueId)
-    {
-        technique = techniquesRepository.getById(techniqueId);
-    }*/
     @Override
     public int hashCode() {
         return getClass().hashCode();

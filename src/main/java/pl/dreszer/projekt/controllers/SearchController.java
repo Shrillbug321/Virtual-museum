@@ -20,35 +20,31 @@ public class SearchController {
 
     @Autowired
     private SearchService searchService;
-    @PostMapping(value="/process.html")
-    public String search(PaintingFilter paintingFilter, Model model)
-    {
+
+    @PostMapping(value = "/process.html")
+    public String search(PaintingFilter paintingFilter, Model model) {
         searchService.search(paintingFilter, model);
         return "search/result";
     }
 
-    @RequestMapping(value="/form.html")
-    protected String showForm(PaintingFilter paintingFilter, Model model)
-    {
+    @RequestMapping(value = "/form.html")
+    protected String showForm(PaintingFilter paintingFilter, Model model) {
         searchService.showForm(paintingFilter, model);
         return "search/form";
     }
 
     @ModelAttribute("techniques")
-    public List<Technique> loadTechniquesList()
-    {
+    public List<Technique> loadTechniquesList() {
         return searchService.loadTechniquesList();
     }
 
     @ModelAttribute("genres")
-    public List<Genre> loadGenresSet()
-    {
+    public List<Genre> loadGenresSet() {
         return searchService.loadGenresSet();
     }
 
     @ModelAttribute("museums")
-    public List<Museum> loadMuseumsList()
-    {
+    public List<Museum> loadMuseumsList() {
         return searchService.loadMuseumsList();
     }
 }

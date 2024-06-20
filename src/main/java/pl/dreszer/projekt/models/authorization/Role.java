@@ -13,22 +13,22 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 public class Role {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer role_id;
-	@Enumerated(EnumType.STRING)
-	private Types type;
-	@ManyToMany(mappedBy = "roles")
-	private Set<User> users;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer role_id;
 
-	public Role(Types type)
-	{
-		this.type = type;
-	}
+    @Enumerated(EnumType.STRING)
+    private Types type;
 
-	public static enum Types
-	{
-		ROLE_ADMIN,
-		ROLE_USER
-	}
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+
+    public Role(Types type) {
+        this.type = type;
+    }
+
+    public enum Types {
+        ROLE_ADMIN,
+        ROLE_USER
+    }
 }

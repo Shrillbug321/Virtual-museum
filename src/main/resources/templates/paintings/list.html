@@ -7,33 +7,40 @@
 <div layout:fragment="header" th:replace="~{fragments :: header('paintings')}"></div>
 <div layout:fragment="content">
     <div id="buttons">
-        <a class="btn btn-light bi-plus-lg" th:href="@{form.html(edit=false)}" sec:authorize="hasRole('ADMIN')" th:text="#{general.add}"> </a>
+        <a class="btn btn-success bi-plus-lg" th:href="@{form.html(edit=false)}"
+           sec:authorize="hasRole('ADMIN')"
+           th:text="#{general.add}"> </a>
         <a class="btn btn-light bi bi-file-earmark-pdf" th:href="@{list/createPdf.html}" th:text="#{pdf.generate}"> </a>
     </div>
     <div th:if="${paintings.size} == 0">
-        <p th:text="#{paintings.list.empty}"> </p>
+        <p th:text="#{paintings.list.empty}"></p>
     </div>
     <div th:if="${paintings.size} > 0">
-        <table id="paintingsList" >
-            <tr th:each="painting : ${paintings}"> <td> <img th:src="${path}+'/'+${painting.paintingId}+'/image.jpg'"></td>
-                 <td> <a class="btn btn-outline-dark" th:href="@{details.html(paintingId=${painting.paintingId})}">
-                     <span th:text="${painting.author}"></span> <br>
-                     <span th:text="${painting.name}"></span> </a>
-                 </td>
+        <table id="paintingsList">
+            <tr th:each="painting : ${paintings}">
+                <td><img th:src="${path}+'/'+${painting.paintingId}+'/image.jpg'"></td>
+                <td><a class="btn btn-outline-dark" th:href="@{details.html(paintingId=${painting.paintingId})}">
+                    <span th:text="${painting.author}"></span> <br>
+                    <span th:text="${painting.name}"></span> </a>
+                </td>
                 <td sec:authorize="hasRole('ADMIN')">
-                    <a class="btn btn-light bi-pencil" th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}"
+                    <a class="btn btn-light bi-pencil"
+                       th:href="@{form.html(edit=true,paintingId=${painting.paintingId})}"
                        th:text="#{general.edit}"> </a> <br>
-                    <button class="delete btn btn-light bi-trash" type="button" data-toggle="modal" data-target="#exampleModal"
-                                th:data-id="${painting.paintingId}" th:text="#{general.delete}">
+                    <button class="delete btn btn-outline-danger bi-trash" type="button" data-toggle="modal"
+                            data-target="#exampleModal"
+                            th:data-id="${painting.paintingId}" th:text="#{general.delete}">
                     </button>
                 </td>
             </tr>
         </table>
         <div id="buttons">
-            <a class="btn btn-light bi-plus-lg" th:href="@{form.html(edit=false)}" sec:authorize="hasRole('ADMIN')" th:text="#{general.add}"> </a>
-            <a class="btn btn-light bi bi-file-earmark-pdf" th:href="@{list/createPdf.html}" th:text="#{pdf.generate}"> </a>
+            <a class="btn btn-success bi-plus-lg" th:href="@{form.html(edit=false)}" sec:authorize="hasRole('ADMIN')"
+               th:text="#{general.add}"> </a>
+            <a class="btn btn-light bi bi-file-earmark-pdf" th:href="@{list/createPdf.html}"
+               th:text="#{pdf.generate}"> </a>
         </div>
-        <div th:replace="~{fragments :: deleteModal}"></div>
+        <div th:replace="~{fragments :: deleteModal(paintings)}"></div>
     </div>
 </div>
 <div layout:fragment="footer" th:replace="~{fragments :: footer}"></div>

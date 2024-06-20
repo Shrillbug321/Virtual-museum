@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template.html}">
+<head th:replace="~{fragments :: head('Formularz obrazu')}">
+<body>
+<div layout:fragment="header" th:replace="~{fragments :: header('painting')}"></div>
+<div layout:fragment="content">
+    <form id="paintingForm" th:action="form.html" th:method="POST" th:object="${trip}" enctype="multipart/form-data"> <br>
+        <input type="text" th:field="*{tripId}" hidden/>
+
+        <label>  <span th:text="#{trip.guider}"> </span>
+            <select class="form-control btn-light" name="guider">
+                <option th:each="guider: ${guiders}" th:text="|${guider.name} ${guider.surname}|" th:value="${guider.guiderId}">  </option>
+            </select>
+        </label> <br>
+
+        <label>	 <span th:text="#{trip.subject}"> </span>
+            <input class="form-control" type="text" th:field="*{subject}"/>
+            <span th:if="${#fields.hasErrors('subject')}" th:each="err: ${#fields.errors('subject')}" th:text="${err}"></span>
+        </label> <br>
+
+        <label>	 <span th:text="#{trip.date}"> </span>
+            <input class="form-control" type="text" th:field="*{date}"/>
+            <span th:if="${#fields.hasErrors('date')}" th:each="err: ${#fields.errors('date')}" th:text="${err}"> </span>
+        </label> <br>
+        <label>	 <span th:text="#{trip.description}"> </span>
+            <textarea class="form-control" type="text" th:field="*{description}"/>
+            <span th:if="${#fields.hasErrors('description')}" th:each="err: ${#fields.errors('description')}" th:text="${err}"> </span>
+        </label> <br>
+
+        <input class="form-control btn-secondary" type="submit" value="Wyślij">
+        <input th:name="edit" th:value="${edit}" hidden>
+    </form>
+</div>
+</body>
+</html>

@@ -10,20 +10,19 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
-	@Autowired
-	private JavaMailSender javaMailSender;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
-	public void sendMimeMail(String to, String subject, String text)
-	{
-		MimeMessage message = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
-		try {
-			helper.setTo(to);
-			helper.setSubject(subject);
-			helper.setText(text, true);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-		javaMailSender.send(message);
-	}
+    public void sendMimeMail(String to, String subject, String text) {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+        try {
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(text, true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        javaMailSender.send(message);
+    }
 }

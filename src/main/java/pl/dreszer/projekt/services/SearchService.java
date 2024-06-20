@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
 @Service
 public class SearchService {
     @Autowired
@@ -35,12 +36,10 @@ public class SearchService {
     String path;
 
     @Transactional(readOnly = true)
-    public void search(PaintingFilter paintingFilter, Model model)
-    {
+    public void search(PaintingFilter paintingFilter, Model model) {
         List<Painting> foundPaintings = null;
         LocalDate minDate, maxDate;
-        switch (paintingFilter.getWhere())
-        {
+        switch (paintingFilter.getWhere()) {
             case "name":
                 foundPaintings = paintingsRepository.findByNameContainingIgnoreCase(paintingFilter.getPhrase());
                 break;
@@ -61,10 +60,9 @@ public class SearchService {
             case "addDate":
                 minDate = LocalDate.parse(paintingFilter.getMinDate());
                 maxDate = LocalDate.parse(paintingFilter.getMaxDate());
-                try (Stream<Painting> paintingStream = paintingsRepository.findByAddDate(minDate,maxDate))
-                {
+                try (Stream<Painting> paintingStream = paintingsRepository.findByAddDate(minDate, maxDate)) {
                     List<Painting> finalFoundPaintings = new ArrayList<>();
-                    paintingStream.forEach(painting -> finalFoundPaintings.add(painting));
+                    paintingStream.forEach(finalFoundPaintings::add);
                     foundPaintings = finalFoundPaintings;
                 }
                 break;
@@ -80,22 +78,23 @@ public class SearchService {
                 break;
         }
         model.addAttribute("paintings", foundPaintings);
-        model.addAttribute("path", path+"/min");
+        model.addAttribute("path", path + "/min");
     }
 
-    @RequestMapping(value="form.html")
-    public void showForm(PaintingFilter paintingFilter, Model model)
-    {
+    @RequestMapping(value = "form.html")
+    public void showForm(PaintingFilter paintingFilter, Model model) {
         model.addAttribute("filter", paintingFilter);
     }
 
-    public List<Technique> loadTechniquesList()
-    {
+    public List<Technique> loadTechniquesList() {
         return techniquesRepository.findAll();
     }
-    public List<Genre> loadGenresSet()
-    {
+
+    public List<Genre> loadGenresSet() {
         return genresRepository.findAll();
     }
-    public List<Museum> loadMuseumsList() { return museumsRepository.findAll();}
+
+    public List<Museum> loadMuseumsList() {
+        return museumsRepository.findAll();
+    }
 }

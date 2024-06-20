@@ -10,15 +10,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 public class Swagger {
-    public Docket api()
-    {
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
                 .apis(RequestHandlerSelectors.any()).
                 paths(PathSelectors.any()).build();
     }
 
-    public ApiInfo apiInfo()
-    {
+    public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Info")
                 .build();

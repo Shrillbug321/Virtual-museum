@@ -10,31 +10,27 @@ import pl.dreszer.projekt.repositories.PaintingsRepository;
 
 @Service
 public class PaintingsService {
-	@Autowired
-	PaintingsRepository paintingsRepository;
-	@Value("${files.location.paintings}")
-	String path;
-	public void paintingDetails(Model model, int paintingId)
-	{
-		Painting painting = paintingsRepository.getById(paintingId);
-		if (!paintingsRepository.existsById(paintingId))
-		{
-			throw new PaintingNotFoundException();
-		}
-		model.addAttribute("painting", painting);
-		model.addAttribute("filepath", path+"/max/"+paintingId+"/image.jpg");
-	}
+    @Autowired
+    PaintingsRepository paintingsRepository;
+    @Value("${files.location.paintings}")
+    String path;
 
-	public void paintings(Model model)
-	{
-		model.addAttribute("paintings", paintingsRepository.findAll());
-		model.addAttribute("path", path+"/min");
-	}
+    public void paintingDetails(Model model, int paintingId) {
+        Painting painting = paintingsRepository.getById(paintingId);
+        if (!paintingsRepository.existsById(paintingId))
+            throw new PaintingNotFoundException();
+        model.addAttribute("painting", painting);
+        model.addAttribute("filepath", path + "/max/" + paintingId + "/image.jpg");
+    }
 
-	public void delete(Model model, int paintingId)
-	{
-		Painting painting = paintingsRepository.getById(paintingId);
-		model.addAttribute("name", painting.getName());
-		paintingsRepository.delete(painting);
-	}
+    public void paintings(Model model) {
+        model.addAttribute("paintings", paintingsRepository.findAll());
+        model.addAttribute("path", path + "/min");
+    }
+
+    public void delete(Model model, int paintingId) {
+        Painting painting = paintingsRepository.getById(paintingId);
+        model.addAttribute("name", painting.getName());
+        paintingsRepository.delete(painting);
+    }
 }

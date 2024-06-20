@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Configuration
-public class RepositoriesConfiguration{
+public class RepositoriesConfiguration {
     @Autowired
     PaintingsRepository paintingsRepository;
     @Autowired
@@ -30,33 +30,33 @@ public class RepositoriesConfiguration{
     RolesRepository rolesRepository;
     @Autowired
     MuseumsRepository museumsRepository;
+    @Autowired
+    TripRepository tripsRepository;
+
     @Bean
-    InitializingBean init()
-    {
+    InitializingBean init(GuidersRepository guidersRepository) {
         return () ->
         {
-            if (genresRepository.findAll().isEmpty())
-            {
-                genresRepository.save(new Genre(1,"Sielanka"));
-                genresRepository.save(new Genre(2,"Martwa natura"));
-                genresRepository.save(new Genre(3,"Rysunek"));
+            if (genresRepository.findAll().isEmpty()) {
+                genresRepository.save(new Genre(1, "Sielanka"));
+                genresRepository.save(new Genre(2, "Martwa natura"));
+                genresRepository.save(new Genre(3, "Rysunek"));
             }
-            if (museumsRepository.findAll().isEmpty())
-            {
+
+            if (museumsRepository.findAll().isEmpty()) {
                 museumsRepository.save(new Museum(1, "Luwr", "Paryż"));
                 museumsRepository.save(new Museum(2, "Etruskie", "Watykan"));
                 museumsRepository.save(new Museum(3, "Miejskie Muzeum Sztuki", "Nowy Jork"));
                 museumsRepository.save(new Museum(4, "Galeria Uffizi", "Florencja"));
             }
-            if(paintingsRepository.findAll().isEmpty())
-            {
-                techniquesRepository.save(new Technique(1,"Olej na płótnie"));
-                techniquesRepository.save(new Technique(2,"Olej na miedzi"));
+
+            if (paintingsRepository.findAll().isEmpty()) {
+                techniquesRepository.save(new Technique(1, "Olej na płótnie"));
+                techniquesRepository.save(new Technique(2, "Olej na miedzi"));
                 paintingsRepository.save(createPainting());
             }
 
-            if(rolesRepository.findAll().isEmpty())
-            {
+            if (rolesRepository.findAll().isEmpty()) {
                 Role roleUser = new Role(Role.Types.ROLE_USER);
                 Role roleAdmin = new Role(Role.Types.ROLE_ADMIN);
                 rolesRepository.save(roleUser);
@@ -72,13 +72,7 @@ public class RepositoriesConfiguration{
                 admin.setPassword((passwordEncoder.encode("admin")));
                 admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
                 admin.setConfirmed(true);
-/*
-DROP TABLE USERS_ROLES ;
-drop table users ;
-drop table roles
-DROP TABLE PAINTINGS_GENRES ;
-drop table paintings ;
-*/
+
                 User superuser = new User("superuser", true);
                 superuser.setPassword((passwordEncoder.encode("123")));
                 superuser.setRoles(new HashSet<>(Arrays.asList(roleUser, roleAdmin)));
@@ -88,14 +82,26 @@ drop table paintings ;
                 usersRepository.save(admin);
                 usersRepository.save(superuser);
             }
+
+            if (guidersRepository.findAll().isEmpty()) {
+                Guider guider = new Guider(1, "Stefan", "Kozłowski");
+                Guider guider2 = new Guider(2, "Mariola", "Wasilak");
+                guidersRepository.save(guider);
+                guidersRepository.save(guider2);
+            }
+
+            if (tripsRepository.findAll().isEmpty()) {
+                Trip trip = new Trip(1, guidersRepository.getById(1), "Szlakiem malarzy Niderlandzkich",
+                        LocalDate.of(2021, 12, 12), "Van Gogh");
+                tripsRepository.save(trip);
+            }
         };
     }
 
-    @Bean(name="PaintingsBean")
-    public Painting createPainting()
-    {
-        Set<Genre> a = new HashSet<>();
-        a.add(genresRepository.getById(2));
+    @Bean(name = "PaintingsBean")
+    public Painting createPainting() {
+        Set<Genre> genres = new HashSet<>();
+        genres.add(genresRepository.getById(2));
         Painting painting1 = new Painting();
         painting1.setPaintingId(1);
         painting1.setName("Słoneczniki");
@@ -106,10 +112,9 @@ drop table paintings ;
         painting1.setExhibited(false);
         painting1.setDimensions("5x5");
         painting1.setTechnique(techniquesRepository.getById(1));
-        painting1.setGenres(a);
+        painting1.setGenres(genres);
         painting1.setMuseum(museumsRepository.getById(1));
         painting1.setExemplars(2);
         return painting1;
     }
-
 }

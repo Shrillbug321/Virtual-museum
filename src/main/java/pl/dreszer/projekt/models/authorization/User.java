@@ -11,59 +11,59 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer user_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer user_id;
 
-	@NotNull
-	@Size(min=2, max=36)
-	private String username;
+    @NotNull
+    @Size(min = 2, max = 36)
+    private String username;
 
-	@NotNull
-	@Size(min=4, max=100)
-	private String password;
+    @NotNull
+    @Size(min = 4, max = 100)
+    private String password;
 
-	@Transient
-	private String passwordConfirm;
+    @Transient
+    private String passwordConfirm;
 
-	@NotNull
-	@Email
-	private String email;
+    @NotNull
+    @Email
+    private String email;
 
-	private boolean enabled = true;
-	private boolean confirmed = false;
+    private boolean enabled = true;
+    private boolean confirmed = false;
 
-	@ManyToMany
-	@JoinTable(name="users_roles",
-		joinColumns = @JoinColumn(name="user_id"),
-		inverseJoinColumns = @JoinColumn(name="role_id"))
-	private Set<Role> roles;
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
-	public User(String username) {
-		this.username = username;
-	}
+    public User(String username) {
+        this.username = username;
+    }
 
-	public User(String username, boolean enabled) {
-		this.username = username;
-		this.enabled = enabled;
-	}
+    public User(String username, boolean enabled) {
+        this.username = username;
+        this.enabled = enabled;
+    }
 
-	public User(String username, String password, boolean enabled) {
-		this.username = username;
-		this.password = password;
-		this.enabled = enabled;
-	}
+    public User(String username, String password, boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+    }
 
-	public void encodePassword(String password)
-	{
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		this.password = encoder.encode(password);
-	}
+    public void encodePassword(String password) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
+    }
 }
