@@ -1,38 +1,37 @@
 <!DOCTYPE html>
 <html lang="pl"
-    xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments :: head('Błąd!')}">
 <body>
-    <table>
-        <!--frytki, kurczak, schabowy, pizza, kluski -->
-        <tr>
-            <td th:text="#{error_page.data}"> </td>
-            <td th:text="${timestamp}"> </td>
-        </tr>
-        <tr>
-            <td th:text="#{error_page.path}"> </td>
-            <td th:text="${path}"> </td>
-        </tr>
-        <tr>
-            <td th:text="#{error_page.error}"> </td>
-            <td th:text="${error}"> </td>
-        </tr>
-        <tr>
-            <td th:text="#{error_page.error_code}"> </td>
-            <td th:text="${status}"> </td>
-        </tr>
-        <tr>
-            <td th:text="#{error_page.message}"> </td>
-            <td th:text="${message}"> </td>
-        </tr>
-        <tr>
-            <td th:text="#{error_page.exception}"> </td>
-            <td th:text="${exception}"> </td>
-        </tr>
-        <tr>
-            <td th:text="#{error_page.trace}"> </td>
-            <pre> <td th:text="${trace}"> </td> </pre>
-        </tr>
-    </table>
+<table style="background-color: white">
+    <tr>
+        <td th:text="#{error_page.data}"></td>
+        <td th:text="${timestamp}"></td>
+    </tr>
+    <tr>
+        <td th:text="#{error_page.path}"></td>
+        <td th:text="${path}"></td>
+    </tr>
+    <tr>
+        <td th:text="#{error_page.error}"></td>
+        <td th:text="${error}"></td>
+    </tr>
+    <tr>
+        <td th:text="#{error_page.error_code}"></td>
+        <td th:text="${status}"></td>
+    </tr>
+    <tr>
+        <td th:text="#{error_page.message}"></td>
+        <td th:text="${message}"></td>
+    </tr>
+    <tr>
+        <td th:text="#{error_page.exception}"></td>
+        <td th:text="${exception}"></td>
+    </tr>
+    <tr>
+        <td th:text="#{error_page.trace}"></td>
+        <pre> <td th:text="${trace}"> </td> </pre>
+    </tr>
+</table>
 </body>
 </html>

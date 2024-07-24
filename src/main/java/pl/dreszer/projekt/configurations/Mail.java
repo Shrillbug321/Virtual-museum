@@ -16,12 +16,14 @@ public class Mail {
         mailSender.setPort(587);
 
         mailSender.setUsername("sebastiandreszer1999@gmail.com");
-        mailSender.setPassword("AbcdGrafik1");
+        mailSender.setPassword("");//erased
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
+        //props.put("mail.smtp.ssl.trust", "*");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
         return mailSender;
     }
 }

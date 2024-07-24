@@ -14,6 +14,7 @@ import pl.dreszer.projekt.repositories.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -37,6 +38,7 @@ public class RepositoriesConfiguration {
     InitializingBean init(GuidersRepository guidersRepository) {
         return () ->
         {
+
             if (genresRepository.findAll().isEmpty()) {
                 genresRepository.save(new Genre(1, "Sielanka"));
                 genresRepository.save(new Genre(2, "Martwa natura"));
@@ -65,16 +67,19 @@ public class RepositoriesConfiguration {
                 PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                 User user = new User("user", true);
                 user.setPassword(passwordEncoder.encode("123"));
-                user.setRoles(new HashSet<>(Arrays.asList(roleUser)));
+                user.setEmail("user@virtual_museum.com");
+                user.setRoles(new HashSet<>(List.of(roleUser)));
                 user.setConfirmed(true);
 
                 User admin = new User("admin", true);
                 admin.setPassword((passwordEncoder.encode("admin")));
-                admin.setRoles(new HashSet<>(Arrays.asList(roleAdmin)));
+                admin.setEmail("admin@virtual_museum.com");
+                admin.setRoles(new HashSet<>(List.of(roleAdmin)));
                 admin.setConfirmed(true);
 
                 User superuser = new User("superuser", true);
                 superuser.setPassword((passwordEncoder.encode("123")));
+                superuser.setEmail("superuser@virtual_museum.com");
                 superuser.setRoles(new HashSet<>(Arrays.asList(roleUser, roleAdmin)));
                 superuser.setConfirmed(true);
 

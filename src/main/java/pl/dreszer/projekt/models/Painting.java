@@ -67,7 +67,7 @@ public class Painting implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "technique_id", nullable = false)
     @ToString.Exclude
-    private Technique technique;
+    private Technique technique = new Technique();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "paintings_genres",
